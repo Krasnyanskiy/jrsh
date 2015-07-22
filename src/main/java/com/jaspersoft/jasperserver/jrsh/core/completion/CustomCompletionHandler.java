@@ -12,7 +12,8 @@ import java.util.Set;
 
 public class CustomCompletionHandler implements jline.console.completer.CompletionHandler {
 
-    public boolean complete(final ConsoleReader reader, final List<CharSequence> candidates, final int pos) throws IOException {
+    public boolean complete(final ConsoleReader reader, final List<CharSequence> candidates, final int pos)
+            throws IOException {
         CursorBuffer buf = reader.getCursorBuffer();
         if (candidates.size() == 1) {
             CharSequence value = candidates.get(0);
@@ -30,13 +31,15 @@ public class CustomCompletionHandler implements jline.console.completer.Completi
         return true;
     }
 
-    public static void setBuffer(final ConsoleReader reader, final CharSequence value, final int offset) throws IOException {
+    public static void setBuffer(final ConsoleReader reader, final CharSequence value, final int offset)
+            throws IOException {
         while ((reader.getCursorBuffer().cursor > offset) && reader.backspace()) {}
         reader.putString(value);
         reader.setCursorPosition(offset + value.length());
     }
 
-    public static void printCandidates(final ConsoleReader reader, Collection<CharSequence> candidates) throws IOException {
+    public static void printCandidates(final ConsoleReader reader, Collection<CharSequence> candidates)
+            throws IOException {
         Set<CharSequence> distinct = new HashSet<CharSequence>(candidates);
         if (distinct.size() > reader.getAutoprintThreshold()) {
             reader.print(String.format("Display all %d possibilities? (y or n)", candidates.size()));

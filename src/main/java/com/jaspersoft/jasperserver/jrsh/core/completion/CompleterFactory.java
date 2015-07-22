@@ -5,7 +5,7 @@ import com.jaspersoft.jasperserver.jrsh.core.operation.OperationFactory;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.Token;
-import com.jaspersoft.jasperserver.jrsh.core.operation.parser.OperationGrammarParser;
+import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.parser.PlainGrammarParser;
 import jline.console.completer.AggregateCompleter;
 import jline.console.completer.ArgumentCompleter;
 import jline.console.completer.Completer;
@@ -21,7 +21,7 @@ public class CompleterFactory {
         AggregateCompleter aggregatedCompleter = new AggregateCompleter();
 
         for (Operation operation : operations) {
-            Grammar grammar = OperationGrammarParser.parse(operation);
+            Grammar grammar = new PlainGrammarParser().parseGrammar(operation);
             List<Rule> rules = grammar.getRules();
             ArgumentCompleter ruleCompleter = new ArgumentCompleter();
 

@@ -1,7 +1,7 @@
 package com.jaspersoft.jasperserver.jrsh.core.operation.annotation;
 
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.Token;
-import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.impl.SkipInputToken;
+import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.impl.AnyStringToken;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -19,6 +19,6 @@ public @interface Value {
 
     boolean tail() default false;
 
-    Class<? extends Token> tokenClass() default SkipInputToken.class;
+    Class<? extends Token> tokenClass() default AnyStringToken.class;
 
 }

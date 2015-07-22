@@ -4,7 +4,7 @@ import jline.console.completer.Completer;
 
 public interface Token {
 
-    String getName();
+    String getName(); // alias in metadata
 
     String getValue();
 

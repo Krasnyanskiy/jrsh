@@ -28,9 +28,9 @@ public class HelpOperation implements Operation {
         Set<Operation> operations = OperationFactory.createOperationsByAvailableTypes();
 
         StringBuilder builder = new StringBuilder("*** HOW TO USE ***")
-                .append(LF)
-                .append("To start work with 'jrsh' in shell mode you need to specify server: ")
-                .append(LF)
+                //.append(LF)
+                .append("To start working with 'jrsh' in shell mode you need to specify server: ")
+                //.append(LF)
                 .append("   $ jrsh username%password@url")
                 .append(LF)
                 .append("Available operations:")

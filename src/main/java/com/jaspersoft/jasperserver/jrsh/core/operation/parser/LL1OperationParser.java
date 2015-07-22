@@ -5,49 +5,69 @@ import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.core.operation.OperationFactory;
 import com.jaspersoft.jasperserver.jrsh.core.operation.OperationStateConfigurer;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.Grammar;
-import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.lexer.Lexer;
-import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.lexer.PathIdentifyingLexer;
+import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.parser.GrammarParser;
+import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.OperationParseException;
-import lombok.Setter;
 
 import java.util.List;
 
 public class LL1OperationParser implements OperationParser {
 
-    @Setter private Lexer lexer;
+    private Lexer lexer;
+    private GrammarParser grammarParser;
 
-    public LL1OperationParser() {
-        lexer = new PathIdentifyingLexer();
+    public LL1OperationParser(Lexer lexer, GrammarParser grammarParser) {
+        this.grammarParser = grammarParser;
+        this.lexer = lexer;
     }
 
-    public Operation parse(String line) throws OperationParseException {
-        List<String> inputTokens = lexer.convert(line);
-        String operationName = inputTokens.get(0);
+    public void setLexer(Lexer lexer) {
+        this.lexer = lexer;
+    }
+
+    public Operation parseOperation(String line) throws OperationParseException {
+        List<String> userInputTokens = lexer.convert(line);
+        String operationName = userInputTokens.get(0);
         Operation operation = OperationFactory.createOperationByName(operationName);
         Conditions.checkOperation(operation);
+        //
+        // Build operation grammar based on operation metadata
+        // that is stored in @annotations.
+        //
+        Grammar grammar = grammarParser.parseGrammar(operation);
+        List<Rule> rules = grammar.getRules();
+        boolean isTokenMatched = false;
 
-        Grammar grammar = OperationGrammarParser.parse(operation);
-        List<Rule> grammarRules = grammar.getRules();
-        boolean matchedRuleExist = false;
-        for (Rule rule : grammarRules) {
-            List<Token> ruleTokens = rule.getTokens();
-            if (match(ruleTokens, inputTokens)) {
-                OperationStateConfigurer.configure(operation, ruleTokens, inputTokens);
-                matchedRuleExist = true;
+        for (Rule rule : rules) {
+            List<Token> operationRuleTokens = rule.getTokens();
+            //
+            // Check if operation grammar tokens are matched
+            // to user input (input tokens).
+            //
+            isTokenMatched = matchTokens(operationRuleTokens, userInputTokens);
+            if (isTokenMatched) {
+                //
+                // Configure operation state
+                //
+                OperationStateConfigurer.configure(
+                        operation,
+                        operationRuleTokens,
+                        userInputTokens);
+                break;
             }
         }
-        Conditions.checkMatchedRulesFlag(matchedRuleExist);
+        Conditions.checkTokenMatching(isTokenMatched);
         return operation;
     }
 
-    protected boolean match(List<Token> ruleTokens, List<String> inputTokens) {
-        if (ruleTokens.size() != inputTokens.size()) {
+    protected boolean matchTokens(List<Token> operationRuleTokens, List<String> userInputTokens) {
+        if (operationRuleTokens.size() != userInputTokens.size()) {
             return false;
         }
-        for (int i = 0; i < ruleTokens.size(); i++) {
-            if (!ruleTokens.get(i).match(inputTokens.get(i))) {
+        for (int i = 0; i < operationRuleTokens.size(); i++) {
+            if (!operationRuleTokens.get(i).match(userInputTokens.get(i))) {
                 return false;
             }
         }

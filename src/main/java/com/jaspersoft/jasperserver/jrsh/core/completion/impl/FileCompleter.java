@@ -3,14 +3,12 @@ package com.jaspersoft.jasperserver.jrsh.core.completion.impl;
 import com.google.common.base.Preconditions;
 import jline.console.completer.Completer;
 import jline.internal.Configuration;
-import lombok.extern.log4j.Log4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.util.List;
 
-@Log4j
 public class FileCompleter implements Completer {
     private String root;
 
@@ -28,9 +26,9 @@ public class FileCompleter implements Completer {
         }
     }
 
-    //---------------------------------------------------------------------
-    // Helper methods
-    //---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    //                           Helper methods
+    // ---------------------------------------------------------------------
 
     private int completeFileForWindows(String buffer, List<CharSequence> candidates) {
         if (buffer == null) {

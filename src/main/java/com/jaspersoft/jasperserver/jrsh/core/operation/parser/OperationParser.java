@@ -5,6 +5,6 @@ import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.Operatio
 
 public interface OperationParser {
 
-    Operation parse(String line) throws OperationParseException;
+    Operation parseOperation(String line) throws OperationParseException;
 
 }

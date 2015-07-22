@@ -18,7 +18,7 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jaxrs.client.apiadapters.resources.ResourceSearchParameter.FOLDER_URI;
 import static com.jaspersoft.jasperserver.jaxrs.client.apiadapters.resources.ResourceSearchParameter.RECURSIVE;
 
-// FIXME: Need refactoring
+// fixme: need refactoring (!)
 public class RepositoryCompleter implements Completer {
 
     public static int uniqueId = 0;
@@ -228,9 +228,9 @@ public class RepositoryCompleter implements Completer {
         return new File(path).getName();
     }
 
-    //---------------------------------------------------------------------
-    // Nested Classes
-    //---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    //                            Nested Classes
+    // ---------------------------------------------------------------------
 
     private static class Downloader {
         public static List<Pair<String, Boolean>> download(String path) {

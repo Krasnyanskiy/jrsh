@@ -6,12 +6,12 @@ import com.jaspersoft.jasperserver.jrsh.core.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.AbstractEvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.core.operation.result.OperationResult;
-import com.jaspersoft.jasperserver.jrsh.core.operation.result.ResultCode;
 import jline.console.ConsoleReader;
 
 import java.io.IOException;
 import java.util.List;
 
+import static com.jaspersoft.jasperserver.jrsh.core.operation.result.ResultCode.FAILED;
 import static java.lang.String.format;
 
 public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
@@ -32,7 +32,7 @@ public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
             for (String line : source) {
                 if (!line.startsWith("#") && !line.isEmpty()) {
                     Session session = SessionFactory.getSharedSession();
-                    operation = parser.parse(line);
+                    operation = parser.parseOperation(line);
                     OperationResult temp = result;
                     result = operation.execute(session);
                     console.println(" → " + result.getResultMessage());
@@ -42,13 +42,21 @@ public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
                 lineCounter++;
             }
         } catch (Exception err) {
-            String message = format(ERROR_MSG, lineCounter, err.getMessage());
+            String message = format(
+                    ERROR_MSG,
+                    lineCounter,
+                    err.getMessage()
+            );
             try {
                 console.print(message);
                 console.flush();
             } catch (IOException ignored) {
             }
-            result = new OperationResult(message, ResultCode.FAILED, operation, result);
+            result = new OperationResult(
+                    message,
+                    FAILED,
+                    operation,
+                    result);
         }
         return result;
     }

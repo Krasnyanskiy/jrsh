@@ -4,9 +4,8 @@ import com.jaspersoft.jasperserver.jrsh.core.operation.annotation.Parameter;
 import com.jaspersoft.jasperserver.jrsh.core.operation.annotation.Value;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.CannotFindSetterException;
-import com.jaspersoft.jasperserver.jrsh
-.core.operation.parser.exception.OperationParseException;
-import lombok.val;
+import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.NoSuitableSetterException;
+import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.OperationParseException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,8 +13,18 @@ import java.util.List;
 
 public class OperationStateConfigurer {
 
-    public static void configure(Operation operation, List<Token> ruleTokens, List<String> inputTokens) {
-        val clazz = operation.getClass();
+    /**
+     * Сonfigures operation state based on the operation metadata.
+     * All metadata is stored in annotations.
+     *
+     * @param operation           unconfigured operation
+     * @param operationRuleTokens operation tokens
+     * @param userInputTokens     user input
+     */
+    public static void configure(Operation operation,
+                                 List<Token> operationRuleTokens,
+                                 List<String> userInputTokens) {
+        Class<? extends Operation> clazz = operation.getClass();
         Field[] fields = clazz.getDeclaredFields();
 
         for (Field field : fields) {
@@ -24,22 +33,20 @@ public class OperationStateConfigurer {
                 Value[] values = param.values();
                 for (Value value : values) {
                     String alias = value.tokenAlias();
-                    int idx = getTokenIndex(ruleTokens, alias);
-                    //
-                    // In fact it is actually a validation. FIXME: move it to the separate class!
-                    //
+                    int idx = getTokenIndex(operationRuleTokens, alias);
                     if (idx >= 0) {
-                        field.setAccessible(true);
-                        Method setter = findSetter(clazz.getMethods(), field.getName());
+                        field.setAccessible(true); // setup accessibility
+                        Method setter = findSetterForField(clazz.getMethods(), field.getName());
                         if (setter == null) {
                             throw new CannotFindSetterException(field.getName());
-                        }
-                        try {
-                            setter.invoke(operation, inputTokens.get(idx));
+                        } else try {
+                            setter.invoke(operation, userInputTokens.get(idx));
                         } catch (Exception err) {
+                            //
                             // Reflection wraps any custom exceptions,
                             // however we can get them through the cause
-                            rethrowIfExceptionHasProperType(err);
+                            //
+                            rethrowException(err);
                         }
                         field.setAccessible(false);
                     }
@@ -48,35 +55,34 @@ public class OperationStateConfigurer {
         }
     }
 
-    //---------------------------------------------------------------------
-    // Helper methods
-    //---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    //                            Helper methods
+    // ---------------------------------------------------------------------
 
-    protected static void rethrowIfExceptionHasProperType(Exception err) {
+    protected static void rethrowException(Exception err) {
         Throwable cause = err.getCause();
         if (OperationParseException.class.isAssignableFrom(cause.getClass())) {
             throw (RuntimeException) cause;
         }
     }
 
-    protected static int getTokenIndex(List<Token> tokens, String tokenName) {
+    protected static int getTokenIndex(List<Token> tokens, String tokenAlias) {
         for (int idx = 0; idx < tokens.size(); idx++) {
             Token token = tokens.get(idx);
-            if (tokenName.equals(token.getName())) {
+            if (tokenAlias.equals(token.getName()/*alias*/)) {
                 return idx;
             }
         }
         return -1;
     }
 
-    protected static Method findSetter(Method[] methods, String name) {
+    protected static Method findSetterForField(Method[] methods, String fieldName) {
         for (Method method : methods) {
             String methodName = method.getName();
-            if (methodName.startsWith("set")
-            && methodName.toLowerCase().endsWith(name.toLowerCase())) {
+            if ("set".concat(fieldName.toLowerCase()).equals(methodName.toLowerCase())) {
                 return method;
             }
         }
-        return null;
+        throw new NoSuitableSetterException();
     }
 }

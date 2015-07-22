@@ -38,19 +38,27 @@ public class ImportOperation implements Operation {
     private static final String UNKNOWN_CONTENT_MSG = "Neither a zip file nor a directory";
     private static final String IO_WARNING_MSG = "Could not delete a temporary file";
 
-    @Parameter(mandatory = true, dependsOn = {"import"}, values = @Value(tail = true, tokenClass = FileNameToken.class, tokenAlias = "IPTH"))
+    @Parameter(mandatory = true, dependsOn = {"import"}, values =
+    @Value(tail = true, tokenClass = FileNameToken.class, tokenAlias = "IPTH"))
     private String path;
-    @Parameter(dependsOn = {"IPTH", "IIME", "IIAE", "IISS", "ISUU", "IWA"}, values = @Value(tokenAlias = "IIUR", tokenClass = StringToken.class, tokenValue = "with-include-audit-events", tail = true))
+
+    @Parameter(dependsOn = {"IPTH", "IIME", "IIAE", "IISS", "ISUU", "IWA"}, values =
+    @Value(tokenAlias = "IIUR", tokenClass = StringToken.class, tokenValue = "with-include-audit-events", tail = true))
     private String withIncludeAuditEvents;
-    @Parameter(dependsOn = {"IPTH", "IIUR", "IIAE", "IISS", "ISUU", "IWA"}, values = @Value(tokenAlias = "IIME", tokenClass = StringToken.class, tokenValue = "with-include-monitoring-events", tail = true))
+    @Parameter(dependsOn = {"IPTH", "IIUR", "IIAE", "IISS", "ISUU", "IWA"}, values =
+    @Value(tokenAlias = "IIME", tokenClass = StringToken.class, tokenValue = "with-include-monitoring-events", tail = true))
     private String withIncludeMonitoringEvents;
-    @Parameter(dependsOn = {"IPTH", "IIUR", "IIME", "IISS", "ISUU", "IWA"}, values = @Value(tokenAlias = "IIAE", tokenClass = StringToken.class, tokenValue = "with-include-access-events", tail = true))
+    @Parameter(dependsOn = {"IPTH", "IIUR", "IIME", "IISS", "ISUU", "IWA"}, values =
+    @Value(tokenAlias = "IIAE", tokenClass = StringToken.class, tokenValue = "with-include-access-events", tail = true))
     private String withIncludeAccessEvents;
-    @Parameter(dependsOn = {"IWA", "ISUU", "IIAE", "IIME", "IIUR", "IPTH"}, values = @Value(tokenAlias = "IISS", tokenClass = StringToken.class, tokenValue = "with-include-server-settings", tail = true))
+    @Parameter(dependsOn = {"IWA", "ISUU", "IIAE", "IIME", "IIUR", "IPTH"}, values =
+    @Value(tokenAlias = "IISS", tokenClass = StringToken.class, tokenValue = "with-include-server-settings", tail = true))
     private String withIncludeServerSettings;
-    @Parameter(dependsOn = {"IWA", "IISS", "IIAE", "IIME", "IIUR", "IPTH"}, values = @Value(tokenAlias = "ISUU", tokenClass = StringToken.class, tokenValue = "with-skip-user-update", tail = true))
+    @Parameter(dependsOn = {"IWA", "IISS", "IIAE", "IIME", "IIUR", "IPTH"}, values =
+    @Value(tokenAlias = "ISUU", tokenClass = StringToken.class, tokenValue = "with-skip-user-update", tail = true))
     private String withSkipUserUpdate;
-    @Parameter(dependsOn = {"ISUU", "IISS", "IIAE", "IIME", "IIUR", "IPTH"}, values = @Value(tokenAlias = "IWA", tokenClass = StringToken.class, tokenValue = "with-update", tail = true))
+    @Parameter(dependsOn = {"ISUU", "IISS", "IIAE", "IIME", "IIUR", "IPTH"}, values =
+    @Value(tokenAlias = "IWA", tokenClass = StringToken.class, tokenValue = "with-update", tail = true))
     private String withUpdate;
 
     @Override
@@ -100,7 +108,7 @@ public class ImportOperation implements Operation {
                 StateDto entity = task.create(new File(path)).getEntity();
                 String status = waitAndGetStatus(entity, session);
 
-                if ("failed".equals(status)){
+                if ("failed".equals(status)) {
                     result = new OperationResult(FAILURE_MSG, FAILED, this, null);
                 } else {
                     result = new OperationResult(OK_MSG, SUCCESS, this, null);

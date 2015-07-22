@@ -11,7 +11,7 @@ public class Conditions {
         }
     }
 
-    public static void checkMatchedRulesFlag(boolean matchedRuleExist) {
+    public static void checkTokenMatching(boolean matchedRuleExist) {
         if (!matchedRuleExist) {
             throw new WrongOperationFormatException();
         }

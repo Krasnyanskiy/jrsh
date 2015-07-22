@@ -1,14 +1,14 @@
 package com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.impl;
 
-import com.jaspersoft.jasperserver.jrsh.core.completion.impl.SkippedInputCompleter;
+import com.jaspersoft.jasperserver.jrsh.core.completion.impl.IgnoreCompleter;
 import com.jaspersoft.jasperserver.jrsh.core.operation.grammar.token.AbstractToken;
 import jline.console.completer.Completer;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class SkipInputToken extends AbstractToken {
+public class AnyStringToken extends AbstractToken {
 
-    public SkipInputToken(String name, String value, boolean mandatory, boolean tailOfRule) {
+    public AnyStringToken(String name, String value, boolean mandatory, boolean tailOfRule) {
         super(name, value, mandatory, tailOfRule);
     }
 
@@ -19,7 +19,7 @@ public class SkipInputToken extends AbstractToken {
 
     @Override
     public Completer getCompleter() {
-        return new SkippedInputCompleter();
+        return new IgnoreCompleter();
     }
 
     @Override

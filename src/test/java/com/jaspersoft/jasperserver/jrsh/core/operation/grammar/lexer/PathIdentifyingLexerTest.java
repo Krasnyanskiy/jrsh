@@ -21,7 +21,7 @@ public class PathIdentifyingLexerTest {
                 "/My\\ Another\\ Cool\\ Folder" +
                 "/file.zip";
 
-    private Lexer lexer = new PathIdentifyingLexer();
+    private Lexer lexer = new PathConsideringLexer();
 
     @Test public void shouldRecognizePathWithOneSpaceAsSingleToken() {
         // When

@@ -14,8 +14,6 @@ import com.jaspersoft.jasperserver.jrsh.core.operation.result.OperationResult;
 import jline.console.ConsoleReader;
 import jline.console.UserInterruptException;
 import jline.console.completer.Completer;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,8 +21,6 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jrsh.core.operation.result.ResultCode.FAILED;
 import static com.jaspersoft.jasperserver.jrsh.core.operation.result.ResultCode.INTERRUPTED;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
 
     private ConsoleReader console;
@@ -53,7 +49,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
                     print("");
                 } else {
                     OperationResult temp = result;
-                    operation = parser.parse(line);
+                    operation = parser.parseOperation(line);
                     result = operation.execute(session);
                     result.setPrevious(temp);
                     print(result.getResultMessage());
@@ -93,9 +89,9 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
         }
     }
 
-    //---------------------------------------------------------------------
-    // Helper methods
-    //---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    //                           Helper methods
+    // ---------------------------------------------------------------------
 
     protected void print(String message) {
         try {
@@ -114,5 +110,9 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
             SessionFactory.getSharedSession().logout();
         } catch (Exception ignored) {
         }
+    }
+
+    public void setConsole(ConsoleReader console) {
+        this.console = console;
     }
 }

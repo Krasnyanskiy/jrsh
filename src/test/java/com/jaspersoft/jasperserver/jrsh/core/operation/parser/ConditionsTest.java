@@ -17,7 +17,7 @@ public class ConditionsTest {
 
     @Test public void shouldThrowAnExceptionIfMatchedRuleDoesNotExist() {
         thrown.expect(WrongOperationFormatException.class);
-        Conditions.checkMatchedRulesFlag(false);
+        Conditions.checkTokenMatching(false);
     }
 
 }

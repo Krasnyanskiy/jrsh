@@ -21,7 +21,7 @@ public class ToolEvaluationStrategy extends AbstractEvaluationStrategy {
         try {
             for (String operation : source) {
                 Session session = SessionFactory.getSharedSession();
-                operationInstance = parser.parse(operation);
+                operationInstance = parser.parseOperation(operation);
                 OperationResult temp = result;
                 result = operationInstance.execute(session);
                 System.out.println(result.getResultMessage());

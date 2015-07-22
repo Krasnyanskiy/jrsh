@@ -2,6 +2,7 @@ package com.jaspersoft.jasperserver.jrsh.core.operation;
 
 import com.jaspersoft.jasperserver.jrsh.core.common.MetadataScannerConfig;
 import com.jaspersoft.jasperserver.jrsh.core.operation.annotation.Master;
+import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.CouldNotCreateOperationInstanceException;
 import com.jaspersoft.jasperserver.jrsh.core.operation.parser.exception.OperationNotFoundException;
 import lombok.extern.log4j.Log4j;
 import lombok.val;
@@ -18,8 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.lang.String.format;
 
 @Log4j
 public class OperationFactory {
@@ -58,7 +57,7 @@ public class OperationFactory {
         try {
             return operationType.newInstance();
         } catch (Exception err) {
-            throw new CouldNotCreateOperationInstance(err);
+            throw new CouldNotCreateOperationInstanceException(err);
         }
     }
 
@@ -99,11 +98,5 @@ public class OperationFactory {
             }
         }
         return operationTypes;
-    }
-
-    private static class CouldNotCreateOperationInstance extends RuntimeException {
-        public CouldNotCreateOperationInstance(Exception err) {
-            super(format("Could not create an operation instance (%s)", err.getMessage()));
-        }
     }
 }

@@ -50,8 +50,8 @@ public class ShellEvaluationStrategyTest {
                 .when(consoleReaderMock)
                 .readLine();
 
-        Mockito.doReturn(loginOperationMock).when(operationParserMock).parse("login superuser%superuser@localhost:8080/jrs-test");
-        Mockito.doReturn(exportOperationMock).when(operationParserMock).parse("export all");
+        Mockito.doReturn(loginOperationMock).when(operationParserMock).parseOperation("login superuser%superuser@localhost:8080/jrs-test");
+        Mockito.doReturn(exportOperationMock).when(operationParserMock).parseOperation("export all");
         Mockito.doReturn(loginOperationResultMock).when(loginOperationMock).execute(sessionMock);
         Mockito.doReturn(exportOperationResultMock).when(exportOperationMock).execute(sessionMock);
         Mockito.doReturn("Message1").when(loginOperationResultMock).getResultMessage();
@@ -85,7 +85,7 @@ public class ShellEvaluationStrategyTest {
         // Given
         List<String> script = Collections.singletonList("login wrong%credentials@localhost:8080/jrs-test");
 
-        Mockito.doReturn(loginOperationMock).when(operationParserMock).parse("login wrong%credentials@localhost:8080/jrs-test");
+        Mockito.doReturn(loginOperationMock).when(operationParserMock).parseOperation("login wrong%credentials@localhost:8080/jrs-test");
         Mockito.doReturn(failedLoginOperationResultMock).when(loginOperationMock).execute(sessionMock);
         Mockito.doReturn(ResultCode.FAILED).when(failedLoginOperationResultMock).getResultCode();
         Mockito.doReturn("Failed").when(failedLoginOperationResultMock).getResultMessage();
@@ -100,7 +100,7 @@ public class ShellEvaluationStrategyTest {
         Assert.assertEquals(result.getContext(), loginOperationMock);
 
         Mockito.verify(loginOperationMock, Mockito.times(1)).execute(sessionMock);
-        Mockito.verify(operationParserMock, Mockito.times(1)).parse("login wrong%credentials@localhost:8080/jrs-test");
+        Mockito.verify(operationParserMock, Mockito.times(1)).parseOperation("login wrong%credentials@localhost:8080/jrs-test");
         Mockito.verify(failedLoginOperationResultMock, Mockito.times(2)).getResultMessage();
         Mockito.verify(strategySpy, Mockito.times(1)).print("Failed");
     }
