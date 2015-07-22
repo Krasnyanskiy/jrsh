@@ -1,10 +1,6 @@
 JasperReports Server Shell (JRSH)
 =================================
-[![Join the chat at https://gitter.im/Krasnyanskiy/jrsh](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Krasnyanskiy/jrsh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Build Status](https://travis-ci.org/Krasnyanskiy/jrsh.svg?branch=develop)](https://travis-ci.org/Krasnyanskiy/jrsh) [![GitHub Release](https://img.shields.io/github/release/Krasnyanskiy/jrsh.svg)](https://github.com/Krasnyanskiy/jrsh/releases)
-
-JRSH is a comprehensive Command Line Interface for JasperReports Server. It's designed for fast and easy interaction with JasperReports Server.
+JRSH is a Command Line Interface for JasperReports Server. It's designed for fast and easy interaction with JasperReports Server.
 
 Table of Contents
 ------------------
