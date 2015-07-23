@@ -18,18 +18,28 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.common;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import java.util.List;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+public class MetadataScannerConfig {
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    private List<String> classes;
+    private List<String> packagesToScan;
+
+    public void setPackages(List<String> packages) {
+        this.packagesToScan = packages;
+    }
+
+    public void setClasses(List<String> classes) {
+        this.classes = classes;
+    }
+
+    public List<String> getClasses() {
+        return classes;
+    }
+
+    public List<String> getPackagesToScan() {
+        return packagesToScan;
     }
 }

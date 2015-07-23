@@ -18,18 +18,24 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import jline.console.completer.Completer;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
+public abstract class AbstractToken implements Token {
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
-    }
+    protected String name;
+    protected String value;
+    protected boolean mandatory;
+    protected boolean tailOfRule;
+
+    public abstract Completer getCompleter();
+    public abstract boolean match(String input);
+
 }

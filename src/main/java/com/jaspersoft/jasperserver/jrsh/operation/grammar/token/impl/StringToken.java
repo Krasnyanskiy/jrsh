@@ -18,18 +18,37 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import com.jaspersoft.jasperserver.jrsh.completion.impl.StringCompleter;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.AbstractToken;
+import jline.console.completer.Completer;
+import lombok.EqualsAndHashCode;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+@EqualsAndHashCode(callSuper = true)
+public class StringToken extends AbstractToken {
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    public StringToken(String name, String value, boolean mandatory, boolean tailOfRule) {
+        super(name, value, mandatory, tailOfRule);
+    }
+
+    @Override
+    public boolean isTailOfRule() {
+        return tailOfRule;
+    }
+
+    @Override
+    public Completer getCompleter() {
+        return new StringCompleter(value);
+    }
+
+    @Override
+    public boolean match(String input) {
+        return input.equals(value);
+    }
+
+    @Override
+    public String toString() {
+        return "<" + name + ">";
     }
 }

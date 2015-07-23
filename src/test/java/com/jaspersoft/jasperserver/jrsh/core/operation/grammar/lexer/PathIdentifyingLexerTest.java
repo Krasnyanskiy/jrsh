@@ -1,5 +1,7 @@
 package com.jaspersoft.jasperserver.jrsh.core.operation.grammar.lexer;
 
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.Lexer;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.PathConsideringLexer;
 import org.junit.Assert;
 import org.junit.Test;
 

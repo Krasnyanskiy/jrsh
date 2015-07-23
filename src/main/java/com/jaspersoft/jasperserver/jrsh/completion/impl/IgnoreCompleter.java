@@ -18,18 +18,24 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.completion.impl;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import jline.console.completer.Completer;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+import java.util.List;
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+/**
+ * This computer is involved in the chain of completion
+ * as a part of argument completer, although it's do
+ * nothing useful.
+ * <p/>
+ * We need it to mark user input and to continue the
+ * search of next proper completer in the completion chain.
+ */
+public class IgnoreCompleter implements Completer {
+    @Override
+    public int complete(String s, int i, List<CharSequence> list) {
+        // ignore completion
+        return 0;
     }
 }

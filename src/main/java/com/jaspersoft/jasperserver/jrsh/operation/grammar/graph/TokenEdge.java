@@ -18,18 +18,44 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.graph;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
+import org.jgrapht.graph.DefaultEdge;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+public class TokenEdge<T extends Token> extends DefaultEdge {
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    private T source;
+    private T target;
+
+    public TokenEdge(T source, T target) {
+        this.source = source;
+        this.target = target;
     }
+
+    @Override
+    public T getSource() {
+        return source;
+    }
+
+    @Override
+    public T getTarget() {
+        return target;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + source + " : " + target + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
 }

@@ -18,18 +18,23 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.annotation;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.StringToken;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
-    }
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Target(FIELD)
+@Retention(RUNTIME)
+public @interface Prefix {
+
+    String value() default "";
+
+    Class<? extends Token> tokenClass() default StringToken.class;
+
 }

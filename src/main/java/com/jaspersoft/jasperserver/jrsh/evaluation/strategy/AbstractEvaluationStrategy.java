@@ -18,18 +18,19 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.evaluation.strategy;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.PathConsideringLexer;
+import com.jaspersoft.jasperserver.jrsh.operation.parser.LL1OperationParser;
+import com.jaspersoft.jasperserver.jrsh.operation.parser.OperationParser;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.PlainGrammarParser;
+import lombok.Data;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+@Data
+public abstract class AbstractEvaluationStrategy implements EvaluationStrategy {
+    protected OperationParser parser;
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    public AbstractEvaluationStrategy() {
+        this.parser = new LL1OperationParser(new PathConsideringLexer(), new PlainGrammarParser());
     }
 }

@@ -18,18 +18,30 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+public class PathConsideringLexer implements Lexer {
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    @Override
+    public List<String> convert(String line) {
+        String word = "";
+        ArrayList<String> tokens = new ArrayList<String>();
+        for (String part : line.split("\\s+")) {
+            if (part.endsWith("\\")) {
+                word = word.concat(part).concat(" ");
+            } else {
+                if (word.isEmpty()) {
+                    tokens.add(part);
+                } else {
+                    word = word.concat(part);
+                    tokens.add(word);
+                    word = "";
+                }
+            }
+        }
+        return tokens;
     }
 }

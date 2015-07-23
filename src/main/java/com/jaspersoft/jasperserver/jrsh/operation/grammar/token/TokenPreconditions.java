@@ -18,18 +18,21 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.runner;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+public class TokenPreconditions {
+    public static boolean isConnectionString(String token) {
+        Pattern pattern = Pattern.compile("(\\w+[|])?\\w+[%]\\w+[@]\\S+");
+        Matcher matcher = pattern.matcher(token);
+        return matcher.matches();
+    }
 
-public class App {
-    public static void main(String[] args) {
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
-        System.exit(result.getResultCode().getValue());
+    public static boolean isScriptFileName(String token) {
+        Pattern scriptPattern = Pattern.compile("\\S+(.jrs)$");
+        Matcher scriptMatcher = scriptPattern.matcher(token);
+        return scriptMatcher.matches();
     }
 }
