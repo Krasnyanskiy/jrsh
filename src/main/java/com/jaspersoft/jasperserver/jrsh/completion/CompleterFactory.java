@@ -20,8 +20,8 @@
  */
 package com.jaspersoft.jasperserver.jrsh.completion;
 
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.core.operation.OperationFactory;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;

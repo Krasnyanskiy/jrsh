@@ -20,9 +20,9 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.core.operation.OperationFactory;
-import com.jaspersoft.jasperserver.jrsh.core.operation.OperationStateConfigurer;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
+import com.jaspersoft.jasperserver.jrsh.operation.OperationStateConfigurer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.Lexer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.GrammarParser;

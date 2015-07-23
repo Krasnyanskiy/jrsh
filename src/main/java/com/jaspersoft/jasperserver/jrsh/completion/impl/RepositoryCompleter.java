@@ -24,7 +24,7 @@ import com.jaspersoft.jasperserver.dto.resources.ClientResourceLookup;
 import com.jaspersoft.jasperserver.jaxrs.client.core.*;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.AuthenticationFailedException;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.ResourceNotFoundException;
-import com.jaspersoft.jasperserver.jrsh.core.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import jline.console.completer.Completer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;

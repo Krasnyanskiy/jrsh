@@ -1,7 +1,7 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.core.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.operation.impl.ExportOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.impl.LoginOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.OperationParser;

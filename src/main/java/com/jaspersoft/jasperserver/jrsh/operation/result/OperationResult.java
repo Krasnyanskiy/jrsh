@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.result;
 
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;

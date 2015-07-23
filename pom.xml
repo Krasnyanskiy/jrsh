@@ -41,18 +41,7 @@
         <dependency>
             <groupId>com.jaspersoft</groupId>
             <artifactId>jrs-rest-java-client</artifactId>
-            <version>6.0.3-ALPHA</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jasperserver-dto</artifactId>
-                    <groupId>com.jaspersoft.jasperserver</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.jaspersoft.jasperserver</groupId>
-            <artifactId>jasperserver-dto</artifactId>
-            <version>6.0.1</version>
+            <version>6.0.4</version>
         </dependency>
 
         <!-- google

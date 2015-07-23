@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation;
 
-import com.jaspersoft.jasperserver.jrsh.core.common.MetadataScannerConfig;
+import com.jaspersoft.jasperserver.jrsh.common.MetadataScannerConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;

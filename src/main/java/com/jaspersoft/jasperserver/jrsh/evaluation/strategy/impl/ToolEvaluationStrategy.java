@@ -21,14 +21,14 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.core.common.SessionFactory;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.AbstractEvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 import java.util.List;
 
-import static com.jaspersoft.jasperserver.jrsh.core.operation.OperationFactory.createOperationByName;
+import static com.jaspersoft.jasperserver.jrsh.operation.OperationFactory.createOperationByName;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 
 public class ToolEvaluationStrategy extends AbstractEvaluationStrategy {

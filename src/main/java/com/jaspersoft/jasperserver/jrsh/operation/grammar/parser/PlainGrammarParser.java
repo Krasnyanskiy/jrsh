@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.grammar.parser;
 
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Prefix;

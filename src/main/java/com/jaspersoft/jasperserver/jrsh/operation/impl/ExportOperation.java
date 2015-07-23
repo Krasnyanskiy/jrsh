@@ -25,7 +25,7 @@ import com.jaspersoft.jasperserver.jaxrs.client.apiadapters.importexport.exports
 import com.jaspersoft.jasperserver.jaxrs.client.apiadapters.importexport.exportservice.ExportTaskAdapter;
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jaxrs.client.dto.importexport.StateDto;
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;

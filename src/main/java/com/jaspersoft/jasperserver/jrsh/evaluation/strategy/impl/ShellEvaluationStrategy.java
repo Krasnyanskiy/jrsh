@@ -21,12 +21,12 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.core.common.ConsoleBuilder;
-import com.jaspersoft.jasperserver.jrsh.core.common.SessionFactory;
-import com.jaspersoft.jasperserver.jrsh.core.completion.CompleterFactory;
-import com.jaspersoft.jasperserver.jrsh.core.completion.CustomCompletionHandler;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.AbstractEvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.common.ConsoleBuilder;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.completion.CompleterFactory;
+import com.jaspersoft.jasperserver.jrsh.completion.CustomCompletionHandler;
+import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.impl.LoginOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;

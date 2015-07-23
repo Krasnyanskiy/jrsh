@@ -20,14 +20,20 @@
  */
 package com.jaspersoft.jasperserver.jrsh.runner;
 
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategy;
-import com.jaspersoft.jasperserver.jrsh.core.evaluation.strategy.EvaluationStrategyFactory;
+import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategy;
+import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFactory;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
-import static com.jaspersoft.jasperserver.jrsh.core.common.ArgumentUtil.convertToScript;
+import java.util.logging.LogManager;
+
+import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScript;
 
 public class App {
     public static void main(String[] args) {
+
+        // disable jersey logger
+        LogManager.getLogManager().reset();
+
         EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
         System.exit(result.getResultCode().getValue());

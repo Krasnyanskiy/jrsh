@@ -24,8 +24,8 @@ import com.jaspersoft.jasperserver.jaxrs.client.apiadapters.importexport.imports
 import com.jaspersoft.jasperserver.jaxrs.client.apiadapters.importexport.importservice.ImportTaskRequestAdapter;
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jaxrs.client.dto.importexport.StateDto;
-import com.jaspersoft.jasperserver.jrsh.core.common.ZipUtil;
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.common.ZipUtil;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Value;

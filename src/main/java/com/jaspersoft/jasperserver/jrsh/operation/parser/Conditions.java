@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
-import com.jaspersoft.jasperserver.jrsh.core.operation.Operation;
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationNotFoundException;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongOperationFormatException;
 
