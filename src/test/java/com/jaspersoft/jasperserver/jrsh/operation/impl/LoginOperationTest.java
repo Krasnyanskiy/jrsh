@@ -1,9 +1,8 @@
-package com.jaspersoft.jasperserver.jrsh.core.operation.impl;
+package com.jaspersoft.jasperserver.jrsh.operation.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.AuthenticationFailedException;
 import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.impl.LoginOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode;
 import org.junit.After;

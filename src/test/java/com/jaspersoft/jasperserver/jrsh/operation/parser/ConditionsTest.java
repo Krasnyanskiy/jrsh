@@ -1,4 +1,4 @@
-package com.jaspersoft.jasperserver.jrsh.core.operation.parser;
+package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
 import com.jaspersoft.jasperserver.jrsh.operation.parser.Conditions;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongOperationFormatException;

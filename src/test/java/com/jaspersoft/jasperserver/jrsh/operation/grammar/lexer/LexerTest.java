@@ -1,11 +1,9 @@
-package com.jaspersoft.jasperserver.jrsh.core.operation.grammar.lexer;
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer;
 
-import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.Lexer;
-import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.PathConsideringLexer;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PathIdentifyingLexerTest {
+public class LexerTest {
 
     public static final String OPERATION_OF_THREE_TOKENS = "" +
             "import " +

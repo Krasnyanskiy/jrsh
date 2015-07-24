@@ -28,14 +28,31 @@ import java.util.logging.LogManager;
 
 import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScript;
 
+/**
+ * This class used to bootstrap and launch a JRSH application.
+ */
 public class App {
+
+    /**
+     * Application entry point. It defines execution strategy
+     * and evaluates scripted expression.
+     *
+     * @param args application arguments
+     */
     public static void main(String[] args) {
-
-        // disable jersey logger
-        LogManager.getLogManager().reset();
-
+        disableLogger();
         EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
         System.exit(result.getResultCode().getValue());
     }
+
+    /**
+     * Disables Jersey logger to prevent console pollution,
+     * which appeared in 6.0.4 version of Rest Client after
+     * Jersey version upgrade.
+     */
+    private static void disableLogger() {
+        LogManager.getLogManager().reset();
+    }
+
 }

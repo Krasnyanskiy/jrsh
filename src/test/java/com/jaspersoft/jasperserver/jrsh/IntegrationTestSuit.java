@@ -1,4 +1,4 @@
-package com.jaspersoft.jasperserver.jrsh.core;
+package com.jaspersoft.jasperserver.jrsh;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

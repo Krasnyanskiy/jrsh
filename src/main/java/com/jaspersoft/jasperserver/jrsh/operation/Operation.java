@@ -23,8 +23,20 @@ package com.jaspersoft.jasperserver.jrsh.operation;
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
+/**
+ * Simple interface that represents a business login
+ * of user command.
+ */
 public interface Operation {
 
+    /**
+     * Executes operation logic and return operation result.
+     * Could be interactive (in that case session is needed)
+     * or non interactive.
+     *
+     * @param session the session to set
+     * @return an operation result
+     */
     OperationResult execute(Session session);
 
 }
