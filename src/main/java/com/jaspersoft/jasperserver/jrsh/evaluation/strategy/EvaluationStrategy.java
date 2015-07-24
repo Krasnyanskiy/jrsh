@@ -21,14 +21,20 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy;
 
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
-import com.jaspersoft.jasperserver.jrsh.operation.parser.OperationParser;
 
 import java.util.List;
 
-public interface EvaluationStrategy {
+/**
+ * Base interface, which represents an evaluation algorithm.
+ */
+public interface EvaluationStrategy extends OperationParserAware {
 
+    /**
+     * Evaluate an expression and return operation result.
+     *
+     * @param source scripted expression to evaluate
+     * @return result of script evaluation
+     */
     OperationResult eval(List<String> source);
-
-    void setParser(OperationParser parser);
 
 }
