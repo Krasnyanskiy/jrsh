@@ -25,12 +25,12 @@ import jline.console.completer.Completer;
 import java.util.List;
 
 /**
- * This computer is involved in the chain of completion
+ * This completer is involved in chained completion
  * as a part of argument completer, although it's do
  * nothing useful.
  * <p/>
- * We need it to mark user input and to continue the
- * search of next proper completer in the completion chain.
+ * We need it only to mark user input and to continue the
+ * search of the next proper completer in the completion chain.
  */
 public class IgnoreCompleter implements Completer {
     @Override
