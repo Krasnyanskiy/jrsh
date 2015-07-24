@@ -23,6 +23,7 @@ package com.jaspersoft.jasperserver.jrsh.operation.annotation;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.AnyStringToken;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -31,9 +32,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Target(FIELD)
 @Retention(RUNTIME)
+@Documented
 public @interface Value {
 
     String tokenAlias() default "";

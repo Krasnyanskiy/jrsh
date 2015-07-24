@@ -24,6 +24,7 @@ import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.StringToken;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -39,6 +40,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target(TYPE)
 @Retention(RUNTIME)
+@Documented
 public @interface Master {
 
     /**
