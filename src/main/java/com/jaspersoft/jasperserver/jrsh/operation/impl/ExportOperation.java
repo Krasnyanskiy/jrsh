@@ -48,6 +48,9 @@ import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCE
 import static java.lang.String.format;
 import static org.joda.time.DateTimeZone.UTC;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 @Data
 @Master(name = "export",
         usage = "export [context] [parameters]",

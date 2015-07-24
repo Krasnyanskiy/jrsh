@@ -33,6 +33,9 @@ import java.util.Set;
 
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCESS;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 @Data
 @Master(name = "help",
         tail = true,

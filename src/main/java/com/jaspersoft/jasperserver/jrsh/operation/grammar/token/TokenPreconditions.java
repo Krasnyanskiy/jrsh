@@ -23,7 +23,10 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TokenPreconditions {
+/**
+ * @author Alexander Krasnyanskiy
+ */
+public abstract class TokenPreconditions {
     public static boolean isConnectionString(String token) {
         Pattern pattern = Pattern.compile("(\\w+[|])?\\w+[%]\\w+[@]\\S+");
         Matcher matcher = pattern.matcher(token);

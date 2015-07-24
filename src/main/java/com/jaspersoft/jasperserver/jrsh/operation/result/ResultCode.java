@@ -20,6 +20,9 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.result;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public enum ResultCode {
     SUCCESS(0),
     FAILED(1),

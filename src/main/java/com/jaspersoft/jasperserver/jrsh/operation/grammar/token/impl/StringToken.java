@@ -25,6 +25,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.AbstractToken;
 import jline.console.completer.Completer;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 @EqualsAndHashCode(callSuper = true)
 public class StringToken extends AbstractToken {
 

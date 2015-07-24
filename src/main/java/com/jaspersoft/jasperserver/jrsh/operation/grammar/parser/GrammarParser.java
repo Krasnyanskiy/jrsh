@@ -24,6 +24,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface GrammarParser {
 
     Grammar parseGrammar(Operation operation) throws OperationParseException;

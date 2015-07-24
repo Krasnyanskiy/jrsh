@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.OperationStateConfigurer;
+import com.jaspersoft.jasperserver.jrsh.operation.OperationStateInitializer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.Lexer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.GrammarParser;
@@ -32,6 +32,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationPars
 
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class LL1OperationParser implements OperationParser {
 
     private Lexer lexer;
@@ -70,7 +73,7 @@ public class LL1OperationParser implements OperationParser {
                 //
                 // Configure operation state
                 //
-                OperationStateConfigurer.configure(
+                OperationStateInitializer.initialize(
                         operation,
                         operationRuleTokens,
                         userInputTokens);

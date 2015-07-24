@@ -22,6 +22,9 @@ package com.jaspersoft.jasperserver.jrsh.common;
 
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class MetadataScannerConfig {
 
     private List<String> classes;

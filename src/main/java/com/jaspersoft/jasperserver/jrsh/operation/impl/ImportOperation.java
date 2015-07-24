@@ -45,6 +45,9 @@ import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILE
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCESS;
 import static java.lang.String.format;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 @Data
 @Log4j
 @Master(name = "import",

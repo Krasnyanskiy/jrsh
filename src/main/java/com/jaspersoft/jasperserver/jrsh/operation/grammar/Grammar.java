@@ -25,6 +25,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.grammar.rule.Rule;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface Grammar {
 
     List<Rule> getRules();

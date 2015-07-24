@@ -30,6 +30,9 @@ import java.util.TreeSet;
 
 import static jline.internal.Preconditions.checkNotNull;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class StringCompleter implements Completer {
     private final SortedSet<String> strings = new TreeSet<String>();
 

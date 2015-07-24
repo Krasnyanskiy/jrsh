@@ -23,6 +23,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class SimpleLexer implements Lexer {
     @Override
     public List<String> convert(String line) {

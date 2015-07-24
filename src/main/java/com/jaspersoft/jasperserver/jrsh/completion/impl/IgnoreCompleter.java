@@ -31,6 +31,8 @@ import java.util.List;
  * <p/>
  * We need it only to mark user input and to continue the
  * search of the next proper completer in the completion chain.
+ *
+ * @author Alexander Krasnyanskiy
  */
 public class IgnoreCompleter implements Completer {
     @Override

@@ -20,6 +20,9 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.parser.exception;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class WrongOperationFormatException extends OperationParseException {
     public WrongOperationFormatException() {
         super("Wrong operation format");

@@ -38,7 +38,9 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jaxrs.client.apiadapters.resources.ResourceSearchParameter.FOLDER_URI;
 import static com.jaspersoft.jasperserver.jaxrs.client.apiadapters.resources.ResourceSearchParameter.RECURSIVE;
 
-// fixme: need refactoring (!)
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class RepositoryCompleter implements Completer {
 
     public static int uniqueId = 0;
@@ -46,6 +48,9 @@ public class RepositoryCompleter implements Completer {
 
     @Override
     public int complete(String buffer, int cursor, List<CharSequence> candidates) {
+
+        // fixme: need refactoring (!)
+
         //
         // prevent completion when user move cursor back
         // and press Tab key

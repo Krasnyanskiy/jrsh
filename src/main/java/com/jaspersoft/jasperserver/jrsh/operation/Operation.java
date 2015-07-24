@@ -24,8 +24,9 @@ import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 /**
- * Simple interface that represents a business login
- * of user command.
+ * Simple interface that represents a business login of user command.
+ *
+ * @author Alexander Krasnyanskiy
  */
 public interface Operation {
 

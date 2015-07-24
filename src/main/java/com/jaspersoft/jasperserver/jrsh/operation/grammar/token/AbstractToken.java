@@ -25,6 +25,9 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor

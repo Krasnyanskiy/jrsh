@@ -23,6 +23,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class PathConsideringLexer implements Lexer {
 
     @Override

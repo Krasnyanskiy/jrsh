@@ -22,6 +22,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.parser.exception;
 
 import static java.lang.String.format;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class CouldNotCreateOperationInstanceException extends OperationParseException {
     public CouldNotCreateOperationInstanceException(Exception err) {
         super(format("Could not create an operation instance (%s)", err.getMessage()));

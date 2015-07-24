@@ -34,10 +34,12 @@ import static java.io.File.separator;
 import static java.io.File.separatorChar;
 
 /**
- * Use org.zeroturnaround.zip.ZipUtil instead.
+ * @author Alexander Krasnyanskiy
  */
 @Deprecated
 public class ZipUtil {
+
+    // fixme: use org.zeroturnaround.zip.ZipUtil instead
 
     public static File pack(String directory) {
         File dir = new File(directory);

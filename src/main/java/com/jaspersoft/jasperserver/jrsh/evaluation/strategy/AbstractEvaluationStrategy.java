@@ -26,6 +26,11 @@ import com.jaspersoft.jasperserver.jrsh.operation.parser.OperationParser;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.PlainGrammarParser;
 import lombok.Data;
 
+/**
+ * Abstract base class for {@link EvaluationStrategy} implementations.
+ *
+ * @author Alexander Krasnyanskiy
+ */
 @Data
 public abstract class AbstractEvaluationStrategy implements EvaluationStrategy {
     protected OperationParser parser;

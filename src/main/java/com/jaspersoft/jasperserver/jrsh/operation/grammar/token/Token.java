@@ -22,6 +22,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 
 import jline.console.completer.Completer;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface Token {
 
     String getName(); // alias in metadata

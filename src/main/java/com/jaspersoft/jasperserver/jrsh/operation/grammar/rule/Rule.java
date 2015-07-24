@@ -24,6 +24,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface Rule {
 
     List<Token> getTokens();

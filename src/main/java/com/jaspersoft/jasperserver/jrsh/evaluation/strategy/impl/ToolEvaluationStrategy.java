@@ -31,6 +31,9 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jrsh.operation.OperationFactory.createOperationByName;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class ToolEvaluationStrategy extends AbstractEvaluationStrategy {
 
     @Override

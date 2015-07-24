@@ -30,6 +30,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class CustomCompletionHandler implements jline.console.completer.CompletionHandler {
 
     public boolean complete(final ConsoleReader reader, final List<CharSequence> candidates, final int pos)

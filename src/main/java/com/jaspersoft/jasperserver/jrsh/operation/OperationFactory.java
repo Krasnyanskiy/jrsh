@@ -31,8 +31,10 @@ import java.util.Set;
 
 import static com.jaspersoft.jasperserver.jrsh.operation.OperationTypeReader.readTypes;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class OperationFactory {
-
     private static final Map<String, Class<? extends Operation>> operations;
     public static final String basePackage = "com.jaspersoft.jasperserver.jrsh.operation.impl";
 

@@ -35,7 +35,12 @@ import static java.util.Arrays.copyOfRange;
 import static java.util.Collections.singletonList;
 import static org.apache.commons.io.FileUtils.readLines;
 
-public class ArgumentUtil {
+/**
+ * Convenience class for converting arguments.
+ *
+ * @author Alexander Krasnyanskiy
+ */
+public abstract class ArgumentUtil {
 
     public static List<String> convertToScript(String[] arguments) {
         List<String> script;

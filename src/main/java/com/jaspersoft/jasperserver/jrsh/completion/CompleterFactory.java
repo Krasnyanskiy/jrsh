@@ -34,6 +34,9 @@ import jline.console.completer.NullCompleter;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class CompleterFactory {
 
     public static Completer create() {

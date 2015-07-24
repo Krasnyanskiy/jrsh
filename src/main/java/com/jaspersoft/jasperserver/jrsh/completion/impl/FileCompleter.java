@@ -29,6 +29,9 @@ import org.apache.commons.lang3.SystemUtils;
 import java.io.File;
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class FileCompleter implements Completer {
     private String root;
 

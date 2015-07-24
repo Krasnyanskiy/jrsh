@@ -23,6 +23,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.graph;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import org.jgrapht.EdgeFactory;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class TokenEdgeFactory implements EdgeFactory<Token, TokenEdge<Token>> {
 
     @Override

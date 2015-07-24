@@ -23,6 +23,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.parser;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface OperationParser {
 
     Operation parseOperation(String line) throws OperationParseException;

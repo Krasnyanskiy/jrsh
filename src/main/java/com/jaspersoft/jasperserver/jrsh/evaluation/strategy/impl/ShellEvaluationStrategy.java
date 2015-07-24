@@ -41,6 +41,9 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.INTERRUPTED;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
 
     private ConsoleReader console;

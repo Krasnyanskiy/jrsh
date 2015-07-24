@@ -24,7 +24,10 @@ import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationNotFoundException;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongOperationFormatException;
 
-public class Conditions {
+/**
+ * @author Alexander Krasnyanskiy
+ */
+public abstract class Conditions {
     public static void checkOperation(Operation operation) {
         if (operation == null) {
             throw new OperationNotFoundException();

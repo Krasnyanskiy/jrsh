@@ -22,6 +22,9 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer;
 
 import java.util.List;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public interface Lexer {
 
     List<String> convert(String line);

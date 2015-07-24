@@ -31,19 +31,20 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class OperationStateConfigurer {
+/**
+ * Initializer for setting the operation state.
+ *
+ * @author Alexander Krasnyanskiy
+ */
+public class OperationStateInitializer {
 
     /**
-     * Сonfigures operation state based on the operation metadata.
-     * All metadata is stored in annotations.
-     *
-     * @param operation           unconfigured operation
+     * Initialize the given operation.
+     * @param operation           operation
      * @param operationRuleTokens operation tokens
      * @param userInputTokens     user input
      */
-    public static void configure(Operation operation,
-                                 List<Token> operationRuleTokens,
-                                 List<String> userInputTokens) {
+    public static void initialize(Operation operation, List<Token> operationRuleTokens, List<String> userInputTokens) {
         Class<? extends Operation> clazz = operation.getClass();
         Field[] fields = clazz.getDeclaredFields();
 

@@ -34,6 +34,9 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 import static java.lang.String.format;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
 
     public static final String ERROR_MSG = "error in line: %s (%s)";

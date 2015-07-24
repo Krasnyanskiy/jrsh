@@ -56,6 +56,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class PlainGrammarParser implements GrammarParser {
 
     private static Graph<Token, TokenEdge<Token>> graph;

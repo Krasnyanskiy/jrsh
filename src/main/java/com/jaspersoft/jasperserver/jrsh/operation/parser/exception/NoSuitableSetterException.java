@@ -20,6 +20,9 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.parser.exception;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class NoSuitableSetterException extends OperationParseException {
     public NoSuitableSetterException() {
         super("There is no suitable setter");

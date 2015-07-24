@@ -23,6 +23,10 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.graph;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import org.jgrapht.graph.DefaultEdge;
 
+/**
+ * @param <T> token type
+ * @author Alexander Krasnyanskiy
+ */
 public class TokenEdge<T extends Token> extends DefaultEdge {
 
     private T source;

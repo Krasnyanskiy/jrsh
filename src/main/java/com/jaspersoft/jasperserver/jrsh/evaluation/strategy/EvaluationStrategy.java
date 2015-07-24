@@ -25,12 +25,14 @@ import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import java.util.List;
 
 /**
- * Base interface, which represents an evaluation algorithm.
+ * Base interface which represents a specific evaluation algorithm.
+ *
+ * @author Alexander Krasnyanskiy
  */
 public interface EvaluationStrategy extends OperationParserAware {
 
     /**
-     * Evaluate an expression and return operation result.
+     * Evaluates an expression and return operation result.
      *
      * @param source scripted expression to evaluate
      * @return result of script evaluation

@@ -27,6 +27,9 @@ import jline.console.completer.CompletionHandler;
 
 import java.io.IOException;
 
+/**
+ * @author Alexander Krasnyanskiy
+ */
 public class ConsoleBuilder {
     private ConsoleReader console;
 

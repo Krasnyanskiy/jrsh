@@ -22,6 +22,7 @@ package com.jaspersoft.jasperserver.jrsh.runner;
 
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFactory;
+import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFactoryImpl;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 import java.util.logging.LogManager;
@@ -29,19 +30,24 @@ import java.util.logging.LogManager;
 import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScript;
 
 /**
- * This class used to bootstrap and launch a JRSH application.
+ * {@link App} class used to bootstrap and launch a JRSH application.
+ *
+ * @author Alexander Krasnyanskiy
  */
 public class App {
 
     /**
-     * Application entry point. It defines execution strategy
-     * and evaluates scripted expression.
+     * Bootstrap and launch the App.
      *
      * @param args application arguments
      */
     public static void main(String[] args) {
+
         disableLogger();
-        EvaluationStrategy strategy = EvaluationStrategyFactory.getStrategy(args);
+
+        // Let's prepare for evaluation and evaluate operations
+        EvaluationStrategyFactory strategyFactory = new EvaluationStrategyFactoryImpl();
+        EvaluationStrategy strategy = strategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
         System.exit(result.getResultCode().getValue());
     }
