@@ -34,7 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Annotation for operation configuration. Add this to
  * the {@link Operation} class definition if you want to set
- * operation metadata.
+ * operation metadata which used for operation completion and
+ * parsing.
  *
  * @author Alexander Krasnyanskiy
  */
