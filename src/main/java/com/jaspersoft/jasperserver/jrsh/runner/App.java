@@ -43,9 +43,8 @@ public class App {
      */
     public static void main(String[] args) {
 
-        disableLogger();
+        resetLogger();
 
-        // Let's prepare for evaluation and evaluate operations
         EvaluationStrategyFactory strategyFactory = new EvaluationStrategyFactoryImpl();
         EvaluationStrategy strategy = strategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
@@ -53,11 +52,11 @@ public class App {
     }
 
     /**
-     * Disables Jersey logger to prevent console pollution,
+     * Reset Jersey logger to prevent console pollution,
      * which appeared in 6.0.4 version of Rest Client after
      * Jersey version upgrade.
      */
-    private static void disableLogger() {
+    private static void resetLogger() {
         LogManager.getLogManager().reset();
     }
 
