@@ -20,6 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.annotation;
 
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.StringToken;
 
@@ -30,20 +31,39 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * Annotation for operation configuration. Add this to
+ * the {@link Operation} class definition if you want to set
+ * operation metadata.
+ *
  * @author Alexander Krasnyanskiy
  */
 @Target(TYPE)
 @Retention(RUNTIME)
 public @interface Master {
 
+    /**
+     * @return operation name which is used for parsing
+     */
     String name() default "";
 
+    /**
+     * @return true if operation name is tailed
+     */
     boolean tail() default false;
 
+    /**
+     * @return operation description
+     */
     String description() default "Not specified";
 
+    /**
+     * @return usage info
+     */
     String usage() default "Not specified";
 
+    /**
+     * @return token type for operation name token
+     */
     Class<? extends Token> tokenClass() default StringToken.class;
 
 }
