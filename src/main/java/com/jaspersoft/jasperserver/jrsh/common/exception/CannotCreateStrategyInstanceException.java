@@ -18,27 +18,16 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.operation;
+package com.jaspersoft.jasperserver.jrsh.common.exception;
 
-import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
+import static java.lang.String.format;
 
 /**
- * Simple interface that represents a business logic.
- *
  * @author Alexander Krasnyanskiy
- * @since 2.0
+ * @since 2.0.5
  */
-public interface Operation {
-
-    /**
-     * Executes operation logic and return operation result.
-     * Could be interactive (in that case not null session is needed)
-     * or non interactive.
-     *
-     * @param session the session to set
-     * @return an operation result
-     */
-    OperationResult execute(Session session);
-
+public class CannotCreateStrategyInstanceException extends RuntimeException {
+    public CannotCreateStrategyInstanceException(Class<?> strategyType) {
+        super(format("Cannot create strategy instance of type %s", strategyType));
+    }
 }

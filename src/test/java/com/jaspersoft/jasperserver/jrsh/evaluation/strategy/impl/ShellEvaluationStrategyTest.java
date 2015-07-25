@@ -1,7 +1,6 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.operation.impl.ExportOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.impl.LoginOperation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.OperationParser;
@@ -10,19 +9,29 @@ import com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode;
 import jline.console.ConsoleReader;
 import jline.console.UserInterruptException;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
+import static com.jaspersoft.jasperserver.jrsh.common.SessionHolder.save;
+import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+/**
+ * Unit tests for {@link ShellEvaluationStrategy} class.
+ */
 public class ShellEvaluationStrategyTest {
+
+    public static final String OPERATION_1 = "login superuser%superuser@localhost:8080/jrs-test";
+    public static final String OPERATION_2 = "login wrong%credentials@localhost:8080/jrs-test";
+    public static final String OPERATION_3 = "export all";
+
+    private ShellEvaluationStrategy strategySpy = spy(new ShellEvaluationStrategy());
+    private Exception thrown = new UserInterruptException("Let's pretend we've pressed `Ctrl+C` key");
 
     @Mock private OperationParser operationParserMock;
     @Mock private LoginOperation loginOperationMock;
@@ -32,89 +41,87 @@ public class ShellEvaluationStrategyTest {
     @Mock private OperationResult exportOperationResultMock;
     @Mock private Session sessionMock;
     @Mock private ConsoleReader consoleReaderMock;
-    @Spy  private ShellEvaluationStrategy strategySpy = new ShellEvaluationStrategy();
 
-    @Before public void before() {
-        MockitoAnnotations.initMocks(this);
+
+    @Before
+    public void before() {
+        initMocks(this);
         strategySpy.setParser(operationParserMock);
         strategySpy.setConsole(consoleReaderMock);
-        SessionFactory.updateSharedSession(sessionMock);
+        save(sessionMock);
     }
 
-    @Test public void shouldExecuteTwoOperationsInShellModeAndInterruptItDueToTheExitKeyBeenPressed() throws Exception {
+    @Test
+    public void shouldExecuteTwoOperationsInShellModeAndInterruptItDueToTheExitKeyBeenPressed() throws Exception {
 
-        // Given
-        List<String> script = Collections.singletonList("login superuser%superuser@localhost:8080/jrs-test");
-        Mockito.doReturn("export all")
-                .doThrow(new UserInterruptException("Let's pretend that we've pressed `Ctrl+C` key"))
-                .when(consoleReaderMock)
-                .readLine();
+        // given
+        doReturn(OPERATION_3).doThrow(thrown).when(consoleReaderMock).readLine();
+        doReturn(loginOperationMock).when(operationParserMock).parseOperation(OPERATION_1);
+        doReturn(exportOperationMock).when(operationParserMock).parseOperation(OPERATION_3);
+        doReturn(loginOperationResultMock).when(loginOperationMock).execute(sessionMock);
+        doReturn(exportOperationResultMock).when(exportOperationMock).execute(sessionMock);
+        doReturn("Message1").when(loginOperationResultMock).getResultMessage();
+        doReturn("Message2").when(exportOperationResultMock).getResultMessage();
+        doReturn(ResultCode.SUCCESS).when(loginOperationResultMock).getResultCode();
+        doReturn(ResultCode.SUCCESS).when(exportOperationResultMock).getResultCode();
 
-        Mockito.doReturn(loginOperationMock).when(operationParserMock).parseOperation("login superuser%superuser@localhost:8080/jrs-test");
-        Mockito.doReturn(exportOperationMock).when(operationParserMock).parseOperation("export all");
-        Mockito.doReturn(loginOperationResultMock).when(loginOperationMock).execute(sessionMock);
-        Mockito.doReturn(exportOperationResultMock).when(exportOperationMock).execute(sessionMock);
-        Mockito.doReturn("Message1").when(loginOperationResultMock).getResultMessage();
-        Mockito.doReturn("Message2").when(exportOperationResultMock).getResultMessage();
-        Mockito.doReturn(ResultCode.SUCCESS).when(loginOperationResultMock).getResultCode();
-        Mockito.doReturn(ResultCode.SUCCESS).when(exportOperationResultMock).getResultCode();
-        Mockito.doNothing().when(strategySpy).print("Message1");
-        Mockito.doNothing().when(strategySpy).print("Message2");
+        doNothing().when(strategySpy).print("Message1");
+        doNothing().when(strategySpy).print("Message2");
 
-        // When
-        OperationResult result = strategySpy.eval(script);
+        // when
+        OperationResult result = strategySpy.eval(singletonList(OPERATION_1));
 
-        // Then
-        Assert.assertEquals(result.getResultCode(), ResultCode.INTERRUPTED);
+        // then
+        assertEquals(result.getResultCode(), ResultCode.INTERRUPTED);
 
-        Mockito.verify(loginOperationMock, Mockito.times(1)).execute(sessionMock);
-        Mockito.verify(exportOperationMock, Mockito.times(1)).execute(sessionMock);
-        Mockito.verify(loginOperationResultMock, Mockito.times(1)).getResultCode();
-        Mockito.verify(loginOperationResultMock, Mockito.times(1)).getResultMessage();
-        Mockito.verify(exportOperationResultMock, Mockito.times(1)).getResultCode();
-        Mockito.verify(exportOperationResultMock, Mockito.times(1)).getResultMessage();
-        Mockito.verify(strategySpy, Mockito.times(1)).print("Message1");
-        Mockito.verify(strategySpy, Mockito.times(1)).print("Message2");
-        Mockito.verify(strategySpy, Mockito.times(1)).logout();
-        Mockito.verifyNoMoreInteractions(loginOperationMock);
-        Mockito.verifyNoMoreInteractions(exportOperationMock);
+        verify(loginOperationMock, times(1)).execute(sessionMock);
+        verify(exportOperationMock, times(1)).execute(sessionMock);
+        verify(loginOperationResultMock, times(1)).getResultCode();
+        verify(loginOperationResultMock, times(1)).getResultMessage();
+        verify(exportOperationResultMock, times(1)).getResultCode();
+        verify(exportOperationResultMock, times(1)).getResultMessage();
+        verify(strategySpy, times(1)).print("Message1");
+        verify(strategySpy, times(1)).print("Message2");
+        verify(strategySpy, times(1)).logout();
+        verifyNoMoreInteractions(loginOperationMock);
+        verifyNoMoreInteractions(exportOperationMock);
     }
 
-    @Test public void shouldExitShellModeIfLoginFailed() throws IOException {
+    @Test
+    public void shouldExitShellModeIfLoginFailed() throws IOException {
 
-        // Given
-        List<String> script = Collections.singletonList("login wrong%credentials@localhost:8080/jrs-test");
+        // given
+        doReturn(loginOperationMock).when(operationParserMock).parseOperation(OPERATION_2);
+        doReturn(failedLoginOperationResultMock).when(loginOperationMock).execute(sessionMock);
+        doReturn(ResultCode.FAILED).when(failedLoginOperationResultMock).getResultCode();
+        doReturn("Failed").when(failedLoginOperationResultMock).getResultMessage();
+        doNothing().when(strategySpy).print("Failed");
 
-        Mockito.doReturn(loginOperationMock).when(operationParserMock).parseOperation("login wrong%credentials@localhost:8080/jrs-test");
-        Mockito.doReturn(failedLoginOperationResultMock).when(loginOperationMock).execute(sessionMock);
-        Mockito.doReturn(ResultCode.FAILED).when(failedLoginOperationResultMock).getResultCode();
-        Mockito.doReturn("Failed").when(failedLoginOperationResultMock).getResultMessage();
-        Mockito.doNothing().when(strategySpy).print("Failed");
+        // when
+        OperationResult result = strategySpy.eval(singletonList(OPERATION_2));
 
-        // When
-        OperationResult result = strategySpy.eval(script);
+        // then
+        assertEquals(result.getResultCode(), ResultCode.FAILED);
+        assertEquals(result.getResultMessage(), "Failed");
+        assertEquals(result.getContext(), loginOperationMock);
 
-        // Then
-        Assert.assertEquals(result.getResultCode(), ResultCode.FAILED);
-        Assert.assertEquals(result.getResultMessage(), "Failed");
-        Assert.assertEquals(result.getContext(), loginOperationMock);
-
-        Mockito.verify(loginOperationMock, Mockito.times(1)).execute(sessionMock);
-        Mockito.verify(operationParserMock, Mockito.times(1)).parseOperation("login wrong%credentials@localhost:8080/jrs-test");
-        Mockito.verify(failedLoginOperationResultMock, Mockito.times(2)).getResultMessage();
-        Mockito.verify(strategySpy, Mockito.times(1)).print("Failed");
+        verify(loginOperationMock, times(1)).execute(sessionMock);
+        verify(operationParserMock, times(1)).parseOperation(OPERATION_2);
+        verify(failedLoginOperationResultMock, times(2)).getResultMessage();
+        verify(strategySpy, times(1)).print("Failed");
     }
 
-    @After public void after() {
-        Mockito.reset(
-          operationParserMock,
-          loginOperationMock,
-          sessionMock,
-          loginOperationResultMock,
-          exportOperationResultMock,
-          consoleReaderMock,
-          exportOperationMock,
-          failedLoginOperationResultMock
+    @After
+    public void after() {
+        reset(
+                operationParserMock,
+                loginOperationMock,
+                sessionMock,
+                loginOperationResultMock,
+                exportOperationResultMock,
+                consoleReaderMock,
+                exportOperationMock,
+                failedLoginOperationResultMock
         );
     }
 }

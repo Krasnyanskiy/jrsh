@@ -28,7 +28,10 @@ import jline.console.completer.CompletionHandler;
 import java.io.IOException;
 
 /**
+ * Builder for {@link ConsoleReader} instances with convenient fluent API.
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class ConsoleBuilder {
     private ConsoleReader console;

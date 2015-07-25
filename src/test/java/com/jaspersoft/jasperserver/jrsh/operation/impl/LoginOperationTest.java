@@ -2,107 +2,115 @@ package com.jaspersoft.jasperserver.jrsh.operation.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.AuthenticationFailedException;
-import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
+import com.jaspersoft.jasperserver.jrsh.common.SessionHolder.SessionFlyweightBuilder;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.ws.rs.ProcessingException;
 
+import static com.jaspersoft.jasperserver.jrsh.common.SessionHolder.createSharedSession;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.reset;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.*;
+
+/**
+ * Unit tests for {@link LoginOperation} class.
+ */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(SessionFactory.class)
+@PrepareForTest(SessionHolder.class)
 public class LoginOperationTest {
 
     private LoginOperation login;
+    private Exception thrown = new ProcessingException("java.net.UnknownHostException: epicfail");
 
     @Mock private Session sessionMock;
 
-    @Before public void before() {
-        MockitoAnnotations.initMocks(this);
+    @Before
+    public void before() {
+        initMocks(this);
         login = new LoginOperation();
     }
 
-    @Test public void shouldLoginAndReturnCorrectOperationResult() {
+    @Test
+    public void shouldLoginAndReturnCorrectOperationResult() {
 
-        // Given
+        // given
         login.setUsername("superuser");
         login.setPassword("superuser");
         login.setServer("http://localhost:8080/jasperserver-pro");
 
-        PowerMockito.mockStatic(SessionFactory.class);
-        PowerMockito.when(SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null))
+        mockStatic(SessionHolder.class);
+        when(createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null))
                 .thenReturn(sessionMock);
 
-        // When
-        OperationResult result = login.execute(null);
+        // when
+        OperationResult receivedResult = login.execute(null);
 
-        // Then
-        // Verify that the createSharedSession method was actually called
-        PowerMockito.verifyStatic();
-        SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
-
-        Assert.assertEquals("You have logged in as superuser", result.getResultMessage());
-        Assert.assertEquals(ResultCode.SUCCESS, result.getResultCode());
-        Assert.assertEquals(login, result.getContext());
+        // then
+        verifyStatic();
+        createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
+        assertEquals("You have logged in as superuser", receivedResult.getResultMessage());
+        assertEquals(ResultCode.SUCCESS, receivedResult.getResultCode());
+        assertEquals(login, receivedResult.getContext());
     }
 
-    @Test public void shouldFailLoginDueToTheWrongCredentials() {
+    @Test
+    public void shouldFailLoginDueToTheWrongCredentials() {
 
-        // Given
+        // given
         login.setUsername("wrongUsername");
         login.setPassword("wrongPassword");
         login.setServer("http://localhost:8080/jasperserver-pro");
 
-        PowerMockito.mockStatic(SessionFactory.class);
-        PowerMockito.when(SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null))
+        mockStatic(SessionHolder.class);
+        when(createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null))
                 .thenThrow(new AuthenticationFailedException("Unauthorized"));
 
-        // When
-        OperationResult result = login.execute(null);
+        // when
+        OperationResult receivedResult = login.execute(null);
 
-        // Then
-        PowerMockito.verifyStatic();
-        SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
-
-        Assert.assertEquals("Login failed (Unauthorized)", result.getResultMessage());
-        Assert.assertEquals(ResultCode.FAILED, result.getResultCode());
-        Assert.assertEquals(login, result.getContext());
+        // then
+        verifyStatic();
+        createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
+        assertEquals("Login failed (Unauthorized)", receivedResult.getResultMessage());
+        assertEquals(ResultCode.FAILED, receivedResult.getResultCode());
+        assertEquals(login, receivedResult.getContext());
     }
 
-    @Test public void shouldFailWithProcessingExceptionAndReturnCorrectOperationResult() {
-        // Given
+    @Test
+    public void shouldFailWithProcessingExceptionAndReturnCorrectOperationResult() {
+
+        // given
         login.setUsername("superuser");
         login.setPassword("superuser");
         login.setServer("http://epicfail:8088/jasperserver-pro");
 
-        PowerMockito.mockStatic(SessionFactory.class);
-        PowerMockito.when(SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null))
-                .thenThrow(new ProcessingException("java.net.UnknownHostException: epicfail"));
+        mockStatic(SessionHolder.class);
+        Session session = new SessionFlyweightBuilder().withPassword("").withUrl("").withUsername("").build();
+        when(createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null)).thenThrow(thrown);
 
-        // When
-        OperationResult result = login.execute(null);
+        // when
+        OperationResult receivedResult = login.execute(null);
 
-        // Then
-        PowerMockito.verifyStatic();
-        SessionFactory.createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
-
-        Assert.assertEquals("Login failed (java.net.UnknownHostException: epicfail)", result.getResultMessage());
-        Assert.assertEquals(ResultCode.FAILED, result.getResultCode());
-        Assert.assertEquals(login, result.getContext());
+        // then
+        verifyStatic();
+        createSharedSession(login.getServer(), login.getUsername(), login.getPassword(), null);
+        assertEquals("Login failed (java.net.UnknownHostException: epicfail)", receivedResult.getResultMessage());
+        assertEquals(ResultCode.FAILED, receivedResult.getResultCode());
+        assertEquals(login, receivedResult.getContext());
     }
 
-    @After public void after() {
-        Mockito.reset(sessionMock);
-        login = null;
+    @After
+    public void after() {
+        reset(sessionMock);
     }
 }

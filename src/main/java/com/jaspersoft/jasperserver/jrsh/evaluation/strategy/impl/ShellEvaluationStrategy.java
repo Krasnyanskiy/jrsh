@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.common.ConsoleBuilder;
-import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
 import com.jaspersoft.jasperserver.jrsh.completion.CompleterFactory;
 import com.jaspersoft.jasperserver.jrsh.completion.CustomCompletionHandler;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
@@ -64,7 +64,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
         OperationResult result = null;
         while (true) {
             try {
-                Session session = SessionFactory.getSharedSession();
+                Session session = SessionHolder.getSharedSession();
                 if (line == null) {
                     line = console.readLine();
                 }
@@ -130,7 +130,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
 
     protected void logout() {
         try {
-            SessionFactory.getSharedSession().logout();
+            SessionHolder.getSharedSession().logout();
         } catch (Exception ignored) {
         }
     }

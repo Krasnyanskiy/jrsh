@@ -4,7 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * Suite for integration tests.
+ */
 @RunWith(Suite.class)
-@SuiteClasses({})
+@SuiteClasses({
+        //
+})
 public class IntegrationTestSuit {
 }

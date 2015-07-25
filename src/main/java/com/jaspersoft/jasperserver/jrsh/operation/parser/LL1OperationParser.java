@@ -33,6 +33,12 @@ import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationPars
 import java.util.List;
 
 /**
+ * An LL parser is a top-down parser for a subset of context-free languages.
+ * It parses the input from Left to right, performing Leftmost derivation
+ * of the sentence.
+ * <p/>
+ * <a href>http://research.microsoft.com/en-us/um/people/abegel/cs164/ll1.html</a>
+ *
  * @author Alexander Krasnyanskiy
  */
 public class LL1OperationParser implements OperationParser {

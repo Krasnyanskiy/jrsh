@@ -22,7 +22,6 @@ package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.common.ConsoleBuilder;
-import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
@@ -31,15 +30,15 @@ import jline.console.ConsoleReader;
 import java.io.IOException;
 import java.util.List;
 
+import static com.jaspersoft.jasperserver.jrsh.common.SessionHolder.getSharedSession;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
-import static java.lang.String.format;
 
 /**
  * @author Alexander Krasnyanskiy
  */
 public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
 
-    public static final String ERROR_MSG = "error in line: %s (%s)";
+    public static final String ERROR_MSG = "error in line: %s (%s)%n";
     private int lineCounter = 1;
     private ConsoleReader console;
 
@@ -54,32 +53,26 @@ public class ScriptEvaluationStrategy extends AbstractEvaluationStrategy {
         try {
             for (String line : source) {
                 if (!line.startsWith("#") && !line.isEmpty()) {
-                    Session session = SessionFactory.getSharedSession();
-                    operation = parser.parseOperation(line);
                     OperationResult temp = result;
+
+                    Session session = getSharedSession();
+                    operation = parser.parseOperation(line);
                     result = operation.execute(session);
+
                     console.println(" → " + result.getResultMessage());
                     console.flush();
                     result.setPrevious(temp);
                 }
                 lineCounter++;
             }
-        } catch (Exception err) {
-            String message = format(
-                    ERROR_MSG,
-                    lineCounter,
-                    err.getMessage()
-            );
+        } catch (Exception e) {
+            String message = String.format(ERROR_MSG, lineCounter, e.getMessage());
             try {
                 console.print(message);
                 console.flush();
             } catch (IOException ignored) {
             }
-            result = new OperationResult(
-                    message,
-                    FAILED,
-                    operation,
-                    result);
+            result = new OperationResult(message, FAILED, operation, result);
         }
         return result;
     }

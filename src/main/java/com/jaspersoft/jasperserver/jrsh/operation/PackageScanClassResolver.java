@@ -21,6 +21,7 @@
 package com.jaspersoft.jasperserver.jrsh.operation;
 
 import com.jaspersoft.jasperserver.jrsh.common.MetadataScannerConfig;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -34,16 +35,33 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Scans packages for operation classes. It requires a config file
+ * in the classpath which contains packages name to scan and/or
+ * operation classes with package name.
+ * <p/>
+ * Config example:
+ * ---
+ * packages:
+ *   - com.test.pack.operation.*
+ *   - org.my.app.operation.*
+ * classes:
+ *   - some.pack.operation.impl.ReadOperation
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0.5
  */
-public class OperationTypeReader {
+public abstract class PackageScanClassResolver {
 
-    public static Set<Class<? extends Operation>> readTypes(String basePackage) {
-        Set<Class<? extends Operation>> operationTypes = new HashSet<Class<? extends Operation>>();
-        Yaml yml = new Yaml();
+    /**
+     * Attempts to discover classes.
+     *
+     * @param basePackage package to scan
+     * @return operation classes
+     */
+    public static Set<Class<? extends Operation>> findOperationClasses(String basePackage) {
+        val operationTypes = new HashSet<Class<? extends Operation>>();
+        MetadataScannerConfig config = readConfig();
 
-        InputStream scanner = OperationTypeReader.class.getClassLoader().getResourceAsStream("scanner.yml");
-        MetadataScannerConfig config = yml.loadAs(scanner, MetadataScannerConfig.class);
         List<String> packagesToScan = config.getPackagesToScan();
         List<String> classes = config.getClasses();
         FilterBuilder filter = new FilterBuilder().includePackage(basePackage);
@@ -59,8 +77,7 @@ public class OperationTypeReader {
             for (String aClass : classes) {
                 try {
                     Class clz = Class.forName(aClass);
-                    if (!Modifier.isAbstract(clz.getModifiers())
-                            && Operation.class.isAssignableFrom(clz)) {
+                    if (!Modifier.isAbstract(clz.getModifiers()) && Operation.class.isAssignableFrom(clz)) {
                         operationTypes.add(clz);
                     }
                 } catch (ClassNotFoundException ignored) {
@@ -75,6 +92,16 @@ public class OperationTypeReader {
             }
         }
         return operationTypes;
+    }
+
+    /**
+     * Reads a config file.
+     *
+     * @return config entity
+     */
+    private static MetadataScannerConfig readConfig() {
+        InputStream scanner = PackageScanClassResolver.class.getClassLoader().getResourceAsStream("scanner.yml");
+        return new Yaml().loadAs(scanner, MetadataScannerConfig.class);
     }
 
 }

@@ -28,14 +28,15 @@ import java.util.List;
  * Base interface which represents a specific evaluation algorithm.
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public interface EvaluationStrategy extends OperationParserAware {
 
     /**
      * Evaluates an expression and return operation result.
      *
-     * @param source scripted expression to evaluate
-     * @return result of script evaluation
+     * @param source expressions to evaluate
+     * @return result of evaluation
      */
     OperationResult eval(List<String> source);
 

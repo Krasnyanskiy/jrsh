@@ -23,7 +23,13 @@ package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 import jline.console.completer.Completer;
 
 /**
+ * A token is a structure representing a lexeme that explicitly
+ * indicates its categorization for the purpose of parsing.
+ * For more info please visit wiki page
+ * <a href>https://en.wikipedia.org/wiki/Lexical_analysis#Token</a>
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public interface Token {
 

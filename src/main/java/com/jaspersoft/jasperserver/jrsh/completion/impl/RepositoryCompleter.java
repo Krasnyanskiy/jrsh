@@ -24,7 +24,7 @@ import com.jaspersoft.jasperserver.dto.resources.ClientResourceLookup;
 import com.jaspersoft.jasperserver.jaxrs.client.core.*;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.AuthenticationFailedException;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.ResourceNotFoundException;
-import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
+import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
 import jline.console.completer.Completer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -198,14 +198,14 @@ public class RepositoryCompleter implements Completer {
     //---------------------------------------------------------------------
 
     private void reopenSession() {
-        Session session = SessionFactory.getSharedSession();
+        Session session = SessionHolder.getSharedSession();
         if (session != null) {
             SessionStorage storage = session.getStorage();
             AuthenticationCredentials credentials = storage.getCredentials();
             RestClientConfiguration cfg = storage.getConfiguration();
             JasperserverRestClient client = new JasperserverRestClient(cfg);
             session = client.authenticate(credentials.getUsername(), credentials.getPassword());
-            SessionFactory.updateSharedSession(session);
+            SessionHolder.save(session);
         }
     }
 
@@ -263,7 +263,7 @@ public class RepositoryCompleter implements Completer {
             List<ClientResourceLookup> lookups;
 
             try {
-                lookups = SessionFactory.getSharedSession()
+                lookups = SessionHolder.getSharedSession()
                         .resourcesService()
                         .resources()
                         .parameter(FOLDER_URI, path)

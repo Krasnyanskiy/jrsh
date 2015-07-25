@@ -20,6 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy;
 
+import com.jaspersoft.jasperserver.jrsh.common.exception.CannotCreateStrategyInstanceException;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl.ScriptEvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl.ShellEvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl.ToolEvaluationStrategy;
@@ -31,11 +32,12 @@ import static com.jaspersoft.jasperserver.jrsh.operation.grammar.token.TokenPrec
  * An implementation of {@link EvaluationStrategyFactory}
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class EvaluationStrategyFactoryImpl implements EvaluationStrategyFactory {
 
     /**
-     * @see {@link EvaluationStrategyFactory#getStrategy(String[])}
+     * {@inheritDoc}
      */
     public EvaluationStrategy getStrategy(String[] arguments) {
         EvaluationStrategy strategy = null;
@@ -43,20 +45,15 @@ public class EvaluationStrategyFactoryImpl implements EvaluationStrategyFactory 
 
         if (arguments.length == 1 && isConnectionString(arguments[0])) {
             strategyType = ShellEvaluationStrategy.class;
-        }
-        else if (arguments.length == 2
-                && "--script".equals(arguments[0])
-                && isScriptFileName(arguments[1])) {
+        } else if (arguments.length == 2 && "--script".equals(arguments[0]) && isScriptFileName(arguments[1])) {
             strategyType = ScriptEvaluationStrategy.class;
-        }
-        else {
+        } else {
             strategyType = ToolEvaluationStrategy.class;
         }
-
         try {
             strategy = strategyType.newInstance();
         } catch (Exception ignored) {
-            throw new RuntimeException("Cannot create strategy instance");
+            throw new CannotCreateStrategyInstanceException(strategyType);
         }
 
         return strategy;

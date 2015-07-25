@@ -25,14 +25,14 @@ import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFa
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFactoryImpl;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
-import java.util.logging.LogManager;
-
 import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScript;
+import static java.util.logging.LogManager.getLogManager;
 
 /**
- * {@link App} class used to bootstrap and launch a JRSH application.
+ * {@link App} class used to bootstrap and launch an application.
  *
  * @author Alexander Krasnyanskiy
+ * @since 1.0
  */
 public class App {
 
@@ -48,6 +48,7 @@ public class App {
         EvaluationStrategyFactory strategyFactory = new EvaluationStrategyFactoryImpl();
         EvaluationStrategy strategy = strategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
+
         System.exit(result.getResultCode().getValue());
     }
 
@@ -57,7 +58,7 @@ public class App {
      * Jersey version upgrade.
      */
     private static void resetLogger() {
-        LogManager.getLogManager().reset();
+        getLogManager().reset();
     }
 
 }

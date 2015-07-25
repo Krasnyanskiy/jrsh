@@ -23,24 +23,27 @@ package com.jaspersoft.jasperserver.jrsh.operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.CouldNotCreateOperationInstanceException;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationNotFoundException;
+import lombok.val;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.jaspersoft.jasperserver.jrsh.operation.OperationTypeReader.readTypes;
+import static com.jaspersoft.jasperserver.jrsh.operation.PackageScanClassResolver.findOperationClasses;
 
 /**
+ * Factory to create a {@link Operation}.
+ *
  * @author Alexander Krasnyanskiy
  */
-public class OperationFactory {
+public abstract class OperationFactory {
     private static final Map<String, Class<? extends Operation>> operations;
-    public static final String basePackage = "com.jaspersoft.jasperserver.jrsh.operation.impl";
+    private static final String basePackage = "com.jaspersoft.jasperserver.jrsh.operation.impl";
 
     static {
         operations = new HashMap<String, Class<? extends Operation>>();
-        for (Class<? extends Operation> operationType : readTypes(basePackage)) {
+        for (val operationType : findOperationClasses(basePackage)) {
             Master annotation = operationType.getAnnotation(Master.class);
             if (annotation != null) {
                 String operationName = annotation.name();

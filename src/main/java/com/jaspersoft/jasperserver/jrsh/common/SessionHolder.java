@@ -18,27 +18,22 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.operation;
+package com.jaspersoft.jasperserver.jrsh.common;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 /**
- * Simple interface that represents a business logic.
- *
  * @author Alexander Krasnyanskiy
- * @since 2.0
  */
-public interface Operation {
+public abstract class SessionHolder {
+    private static Session sharedSession;
 
-    /**
-     * Executes operation logic and return operation result.
-     * Could be interactive (in that case not null session is needed)
-     * or non interactive.
-     *
-     * @param session the session to set
-     * @return an operation result
-     */
-    OperationResult execute(Session session);
+    public static Session getSharedSession() {
+        return sharedSession;
+    }
+
+    public static void save(Session session) {
+        sharedSession = session;
+    }
 
 }
