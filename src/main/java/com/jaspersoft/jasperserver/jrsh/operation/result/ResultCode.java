@@ -21,15 +21,19 @@
 package com.jaspersoft.jasperserver.jrsh.operation.result;
 
 /**
+ * Representation of the operation result code.
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public enum ResultCode {
+
     SUCCESS(0),
     FAILED(1),
     INTERRUPTED(2);
 
     private int value;
-    
+
     ResultCode(int value) {
         this.value = value;
     }

@@ -40,7 +40,7 @@ import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCE
 @Master(name = "help",
         tail = true,
         usage = "help [operation]",
-        description = "Operation <help> demonstrates how to use cli")
+        description = "<help> demonstrates how to use cli")
 public class HelpOperation implements Operation {
 
     private static final String PREFIX = StringUtils.repeat(" ", 3);
@@ -49,7 +49,7 @@ public class HelpOperation implements Operation {
 
     @Override
     public OperationResult execute(Session session) {
-        Set<Operation> operations = OperationFactory.createOperationsByAvailableTypes();
+        Set<Operation> operations = OperationFactory.createOperationsByTypes();
 
         StringBuilder builder = new StringBuilder("*** HOW TO USE ***")
                 .append(LF)

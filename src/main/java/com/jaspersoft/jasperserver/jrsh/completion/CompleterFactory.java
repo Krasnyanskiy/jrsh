@@ -40,7 +40,7 @@ import java.util.Set;
 public class CompleterFactory {
 
     public static Completer create() {
-        Set<Operation> operations = OperationFactory.createOperationsByAvailableTypes();
+        Set<Operation> operations = OperationFactory.createOperationsByTypes();
         AggregateCompleter aggregatedCompleter = new AggregateCompleter();
 
         for (Operation operation : operations) {

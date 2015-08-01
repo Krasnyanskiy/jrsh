@@ -33,16 +33,27 @@ import java.util.Set;
 import static com.jaspersoft.jasperserver.jrsh.operation.PackageScanClassResolver.findOperationClasses;
 
 /**
- * Factory to create a {@link Operation}.
+ * Factory class to create an {@link Operation}.
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public abstract class OperationFactory {
-    private static final Map<String, Class<? extends Operation>> operations;
-    private static final String basePackage = "com.jaspersoft.jasperserver.jrsh.operation.impl";
+    //
+    // Available operations container
+    //
+    private static final Map<String, Class<? extends Operation>> operations =
+            new HashMap<String, Class<? extends Operation>>();
+    //
+    // Base operation impl package
+    //
+    private static final String basePackage =
+            "com.jaspersoft.jasperserver.jrsh.operation.impl";
 
     static {
-        operations = new HashMap<String, Class<? extends Operation>>();
+        //
+        // Initializer
+        //
         for (val operationType : findOperationClasses(basePackage)) {
             Master annotation = operationType.getAnnotation(Master.class);
             if (annotation != null) {
@@ -52,6 +63,12 @@ public abstract class OperationFactory {
         }
     }
 
+    /**
+     * Returns the {@link Operation} corresponding to the operation name.
+     *
+     * @param operationName name of operation
+     * @return operation
+     */
     public static Operation createOperationByName(String operationName) {
         Class<? extends Operation> operationType = operations.get(operationName);
         if (operationType == null) {
@@ -60,15 +77,26 @@ public abstract class OperationFactory {
         return createInstance(operationType);
     }
 
-    public static Set<Operation> createOperationsByAvailableTypes() {
+    /**
+     * Creates a set of operation instances by their types.
+     *
+     * @return a set of operations
+     */
+    public static Set<Operation> createOperationsByTypes() {
         HashSet<Operation> setOfOperations = new HashSet<Operation>();
-        for (Class<? extends Operation> type : operations.values()) {
+        for (val type : operations.values()) {
             setOfOperations.add(createInstance(type));
         }
         return setOfOperations;
     }
 
-    protected static Operation createInstance(Class<? extends Operation> operationType) {
+    /**
+     * Creates an instance of {@link Operation} by operation class.
+     *
+     * @param operationType the type of operation
+     * @return an operation instance
+     */
+    private static <T extends Operation> T createInstance(Class<T> operationType) {
         try {
             return operationType.newInstance();
         } catch (Exception err) {

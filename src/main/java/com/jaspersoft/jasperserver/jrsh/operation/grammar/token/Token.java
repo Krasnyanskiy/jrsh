@@ -20,6 +20,7 @@
  */
 package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
 
+import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import jline.console.completer.Completer;
 
 /**
@@ -33,16 +34,39 @@ import jline.console.completer.Completer;
  */
 public interface Token {
 
-    String getName(); // alias in metadata
+    /**
+     * Returns representative name of alias from
+     * {@link Operation} metadata.
+     *
+     * @return operation alias
+     */
+    String getName();
 
+    /**
+     *
+     */
     String getValue();
 
+    /**
+     *
+     */
     boolean isMandatory();
 
+    /**
+     *
+     */
     boolean isTailOfRule();
 
+    /**
+     * Returns a completer of this particular token.
+     *
+     * @return completer
+     */
     Completer getCompleter();
 
+    /**
+     *
+     */
     boolean match(String input);
 
 }

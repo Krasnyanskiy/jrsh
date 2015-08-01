@@ -52,7 +52,7 @@ import static java.lang.String.format;
 @Log4j
 @Master(name = "import",
         usage = "import [file]",
-        description = "Operation <import> is used to import resources to JRS")
+        description = "<import> is used to import resources to JRS")
 public class ImportOperation implements Operation {
 
     private static final String OK_MSG = "Import status: Success";

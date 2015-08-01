@@ -21,48 +21,71 @@
 package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.OperationStateInitializer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.lexer.Lexer;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.GrammarParser;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;
+import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongOperationFormatException;
 
 import java.util.List;
 
+import static com.jaspersoft.jasperserver.jrsh.operation.OperationFactory.createOperationByName;
+import static com.jaspersoft.jasperserver.jrsh.operation.OperationStateInitializer.initialize;
+
 /**
- * An LL parser is a top-down parser for a subset of context-free languages.
- * It parses the input from Left to right, performing Leftmost derivation
- * of the sentence.
+ * An implementation of {@link OperationParser} interface.
  * <p/>
- * <a href>http://research.microsoft.com/en-us/um/people/abegel/cs164/ll1.html</a>
+ * You can find a description of LL parser here:
+ * <a href>http://research.microsoft.com/en-us/um/people/
+ * abegel/cs164/ll1.html<a/>
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class LL1OperationParser implements OperationParser {
 
     private Lexer lexer;
     private GrammarParser grammarParser;
 
+    /**
+     * Constructs a new {@link LL1OperationParser}.
+     *
+     * @param lexer         lexer to set
+     * @param grammarParser parser to set
+     */
     public LL1OperationParser(Lexer lexer, GrammarParser grammarParser) {
         this.grammarParser = grammarParser;
         this.lexer = lexer;
     }
 
+    /**
+     * Sets a specific lexer to convert the line of operation into
+     * the set of tokens.
+     *
+     * @param lexer lexer to set
+     */
     public void setLexer(Lexer lexer) {
         this.lexer = lexer;
     }
 
-    public Operation parseOperation(String line) throws OperationParseException {
+    /**
+     * {@inheritDoc}
+     */
+    public Operation parseOperation(String line)
+            throws OperationParseException {
         List<String> userInputTokens = lexer.convert(line);
         String operationName = userInputTokens.get(0);
-        Operation operation = OperationFactory.createOperationByName(operationName);
+        //
+        // An attempt to get operation instance,
+        // could potentially throw {@link OperationParseException}.
+        //
+        Operation operation = createOperationByName(operationName);
         Conditions.checkOperation(operation);
         //
         // Build operation grammar based on operation metadata
-        // that is stored in @annotations.
+        // that stored in @annotations.
         //
         Grammar grammar = grammarParser.parseGrammar(operation);
         List<Rule> rules = grammar.getRules();
@@ -72,28 +95,44 @@ public class LL1OperationParser implements OperationParser {
             List<Token> operationRuleTokens = rule.getTokens();
             //
             // Check if operation grammar tokens are matched
-            // to user input (input tokens).
+            // to the user input (tokens).
             //
-            isTokenMatched = matchTokens(operationRuleTokens, userInputTokens);
+            isTokenMatched =
+                    matchTokens(operationRuleTokens, userInputTokens);
             if (isTokenMatched) {
                 //
                 // Configure operation state
                 //
-                OperationStateInitializer.initialize(
-                        operation,
+                initialize(operation,
                         operationRuleTokens,
                         userInputTokens);
                 break;
             }
         }
-        Conditions.checkTokenMatching(isTokenMatched);
+        if (!isTokenMatched) {
+            throw new WrongOperationFormatException();
+        }
         return operation;
     }
 
-    protected boolean matchTokens(List<Token> operationRuleTokens, List<String> userInputTokens) {
+    /**
+     * Matches tokens of operation rule and user input.
+     *
+     * @param operationRuleTokens tokens defined in rule
+     * @param userInputTokens     user input tokens
+     * @return true if matched
+     */
+    protected boolean matchTokens(List<Token> operationRuleTokens,
+                                  List<String> userInputTokens) {
+        //
+        // Unmatched sizes
+        //
         if (operationRuleTokens.size() != userInputTokens.size()) {
             return false;
         }
+        //
+        // Match tokens
+        //
         for (int i = 0; i < operationRuleTokens.size(); i++) {
             if (!operationRuleTokens.get(i).match(userInputTokens.get(i))) {
                 return false;

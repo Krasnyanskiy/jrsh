@@ -22,21 +22,22 @@ package com.jaspersoft.jasperserver.jrsh.operation.parser;
 
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationNotFoundException;
-import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongOperationFormatException;
 
 /**
+ * Convenience class used to help check {@link Operation}s.
+ *
  * @author Alexander Krasnyanskiy
  */
 public abstract class Conditions {
+
+    /**
+     * Checks if {@link Operation} is null.
+     *
+     * @param operation operation to check
+     */
     public static void checkOperation(Operation operation) {
         if (operation == null) {
             throw new OperationNotFoundException();
-        }
-    }
-
-    public static void checkTokenMatching(boolean matchedRuleExist) {
-        if (!matchedRuleExist) {
-            throw new WrongOperationFormatException();
         }
     }
 }

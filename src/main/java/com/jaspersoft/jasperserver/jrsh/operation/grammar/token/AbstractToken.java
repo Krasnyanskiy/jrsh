@@ -26,13 +26,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
+ * Base abstract token.
+ *
  * @author Alexander Krasnyanskiy
  */
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor
 public abstract class AbstractToken implements Token {
-
     protected String name;
     protected String value;
     protected boolean mandatory;

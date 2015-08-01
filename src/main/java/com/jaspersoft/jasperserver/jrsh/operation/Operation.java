@@ -24,7 +24,7 @@ import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 /**
- * Simple interface that represents a business logic.
+ * This interface represents business logic of single operation.
  *
  * @author Alexander Krasnyanskiy
  * @since 2.0
@@ -32,9 +32,9 @@ import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 public interface Operation {
 
     /**
-     * Executes operation logic and return operation result.
+     * Executes operation logic and returns operation result.
      * Could be interactive (in that case not null session is needed)
-     * or non interactive.
+     * or non-interactive.
      *
      * @param session the session to set
      * @return an operation result

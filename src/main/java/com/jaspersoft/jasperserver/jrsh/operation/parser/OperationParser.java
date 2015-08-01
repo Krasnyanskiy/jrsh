@@ -24,10 +24,20 @@ import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;
 
 /**
+ * A parser to parse an operation.
+ *
  * @author Alexander Krasnyanskiy
  */
 public interface OperationParser {
 
-    Operation parseOperation(String line) throws OperationParseException;
+    /**
+     * Parses a line to fully configured {@link Operation} instance.
+     *
+     * @param line line of operation
+     * @return a configured operation
+     * @throws OperationParseException
+     */
+    Operation parseOperation(String line)
+            throws OperationParseException;
 
 }

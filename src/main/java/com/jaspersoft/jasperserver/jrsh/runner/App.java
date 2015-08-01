@@ -45,7 +45,8 @@ public class App {
 
         resetLogger();
 
-        EvaluationStrategyFactory strategyFactory = new EvaluationStrategyFactoryImpl();
+        EvaluationStrategyFactory strategyFactory =
+                new EvaluationStrategyFactoryImpl();
         EvaluationStrategy strategy = strategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
 

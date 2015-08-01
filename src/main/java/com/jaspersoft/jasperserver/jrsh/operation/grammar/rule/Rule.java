@@ -25,6 +25,8 @@ import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
 import java.util.List;
 
 /**
+ * A grammar rule.
+ *
  * @author Alexander Krasnyanskiy
  */
 public interface Rule {

@@ -25,6 +25,6 @@ package com.jaspersoft.jasperserver.jrsh.operation.parser.exception;
  */
 public class WrongConnectionStringFormatException extends OperationParseException {
     public WrongConnectionStringFormatException() {
-        super("Connection string doesn't match the format. Should be [name]|[org]%[password]@[url]");
+        super("Connection string doesn't match the format");
     }
 }

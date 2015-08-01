@@ -21,17 +21,27 @@
 package com.jaspersoft.jasperserver.jrsh.operation.grammar.graph;
 
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
+import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 
 /**
+ * An implementation of {@link DefaultEdge} in a {@link Graph}.
+ *
  * @param <T> token type
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class TokenEdge<T extends Token> extends DefaultEdge {
 
     private T source;
     private T target;
 
+    /**
+     * Constructs a new {@link TokenEdge}.
+     *
+     * @param source an edge source
+     * @param target an edge target
+     */
     public TokenEdge(T source, T target) {
         this.source = source;
         this.target = target;

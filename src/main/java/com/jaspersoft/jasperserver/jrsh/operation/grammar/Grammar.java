@@ -26,14 +26,33 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * A formal grammar. See the docs for more information:
+ * <a href>https://en.wikipedia.org/wiki/Formal_grammar<a/>
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public interface Grammar {
 
+    /**
+     * Returns grammar's rules.
+     *
+     * @return grammar rules
+     */
     List<Rule> getRules();
 
+    /**
+     * Adds a rule to grammar
+     *
+     * @param rule rule to add
+     */
     void addRule(Rule rule);
 
+    /**
+     * Adds the collection of rule to grammar.
+     *
+     * @param rules collection of rule
+     */
     void addRules(Collection<Rule> rules);
 
 }

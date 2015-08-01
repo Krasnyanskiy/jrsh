@@ -26,7 +26,10 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
+ * Representation of the operation result.
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Data
 @AllArgsConstructor

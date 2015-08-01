@@ -22,7 +22,6 @@ package com.jaspersoft.jasperserver.jrsh.operation;
 
 import com.jaspersoft.jasperserver.jrsh.common.MetadataScannerConfig;
 import lombok.val;
-import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.FilterBuilder;
@@ -34,18 +33,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.apache.commons.lang3.StringUtils.chomp;
+
 /**
  * Scans packages for operation classes. It requires a config file
- * in the classpath which contains packages name to scan and/or
+ * in the classpath which contains package names to scan and/or
  * operation classes with package name.
  * <p/>
  * Config example:
  * ---
  * packages:
- *   - com.test.pack.operation.*
- *   - org.my.app.operation.*
+ * - com.test.pack.operation.*
+ * - org.my.app.operation.*
  * classes:
- *   - some.pack.operation.impl.ReadOperation
+ * - some.pack.operation.impl.ReadOperation
  *
  * @author Alexander Krasnyanskiy
  * @since 2.0.5
@@ -53,40 +54,49 @@ import java.util.Set;
 public abstract class PackageScanClassResolver {
 
     /**
-     * Attempts to discover classes.
+     * Discovers the packages retrieves operation types.
      *
      * @param basePackage package to scan
      * @return operation classes
      */
-    public static Set<Class<? extends Operation>> findOperationClasses(String basePackage) {
+    public static Set<Class<? extends Operation>> findOperationClasses(
+            String basePackage) {
         val operationTypes = new HashSet<Class<? extends Operation>>();
+
         MetadataScannerConfig config = readConfig();
-
-        List<String> packagesToScan = config.getPackagesToScan();
+        List<String> externalPackagesToScan = config.getPackagesToScan();
         List<String> classes = config.getClasses();
-        FilterBuilder filter = new FilterBuilder().includePackage(basePackage);
-
-        if (packagesToScan != null) {
-            for (String aPackage : packagesToScan) {
-                aPackage = StringUtils.chomp(aPackage, ".*");
-                filter.includePackage(aPackage);
-            }
-        }
-
+        FilterBuilder filter =
+                new FilterBuilder().includePackage(basePackage);
+        //
+        // Discover external operation types from configuration file
+        //
         if (classes != null) {
             for (String aClass : classes) {
                 try {
                     Class clz = Class.forName(aClass);
-                    if (!Modifier.isAbstract(clz.getModifiers()) && Operation.class.isAssignableFrom(clz)) {
+                    if (!Modifier.isAbstract(clz.getModifiers())
+                            && Operation.class.isAssignableFrom(clz)) {
                         operationTypes.add(clz);
                     }
                 } catch (ClassNotFoundException ignored) {
                 }
             }
         }
-
+        //
+        // Prepare package filter to avoid unnecessary CP scanning
+        //
+        if (externalPackagesToScan != null) {
+            for (String aPackage : externalPackagesToScan) {
+                aPackage = chomp(aPackage, ".*");
+                filter.includePackage(aPackage);
+            }
+        }
+        //
+        // Retrieve internal operation types
+        //
         Reflections ref = new Reflections(new SubTypesScanner(), filter);
-        for (Class<? extends Operation> subType : ref.getSubTypesOf(Operation.class)) {
+        for (val subType : ref.getSubTypesOf(Operation.class)) {
             if (!Modifier.isAbstract(subType.getModifiers())) {
                 operationTypes.add(subType);
             }
@@ -95,12 +105,14 @@ public abstract class PackageScanClassResolver {
     }
 
     /**
-     * Reads a config file.
+     * Reads a config file. The config should be located in classpath.
      *
-     * @return config entity
+     * @return config model
      */
     private static MetadataScannerConfig readConfig() {
-        InputStream scanner = PackageScanClassResolver.class.getClassLoader().getResourceAsStream("scanner.yml");
+        InputStream scanner = PackageScanClassResolver.class
+                .getClassLoader()
+                .getResourceAsStream("scanner.yml");
         return new Yaml().loadAs(scanner, MetadataScannerConfig.class);
     }
 

@@ -23,7 +23,7 @@ package com.jaspersoft.jasperserver.jrsh.operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Value;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
-import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.CannotFindSetterException;
+import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.CannotFindAccessorException;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.NoSuitableSetterException;
 import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationParseException;
 
@@ -35,41 +35,41 @@ import java.util.List;
  * Initializer for setting the operation state.
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
-public class OperationStateInitializer {
+public abstract class OperationStateInitializer {
 
     /**
      * Initialize the given operation.
+     *
      * @param operation           operation
      * @param operationRuleTokens operation tokens
      * @param userInputTokens     user input
      */
-    public static void initialize(Operation operation, List<Token> operationRuleTokens, List<String> userInputTokens) {
-        Class<? extends Operation> clazz = operation.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (Field field : fields) {
-            Parameter param = field.getAnnotation(Parameter.class);
+    public static void initialize(Operation operation,
+                                  List<Token> operationRuleTokens,
+                                  List<String> userInputTokens) {
+        Class<? extends Operation> clz = operation.getClass();
+        Field[] fields = clz.getDeclaredFields();
+        for (Field fld : fields) {
+            Parameter param = fld.getAnnotation(Parameter.class);
             if (param != null) {
                 Value[] values = param.values();
-                for (Value value : values) {
-                    String alias = value.tokenAlias();
+                for (Value val : values) {
+                    String alias = val.tokenAlias();
                     int idx = getTokenIndex(operationRuleTokens, alias);
                     if (idx >= 0) {
-                        field.setAccessible(true); // setup accessibility
-                        Method setter = findSetterForField(clazz.getMethods(), field.getName());
-                        if (setter == null) {
-                            throw new CannotFindSetterException(field.getName());
+                        fld.setAccessible(true); // setup accessibility
+                        Method accessor =
+                                findAccessor(clz.getMethods(), fld.getName());
+                        if (accessor == null) {
+                            throw new CannotFindAccessorException(fld.getName());
                         } else try {
-                            setter.invoke(operation, userInputTokens.get(idx));
-                        } catch (Exception err) {
-                            //
-                            // Reflection wraps any custom exceptions,
-                            // however we can get them through the cause
-                            //
-                            rethrowException(err);
+                            accessor.invoke(operation, userInputTokens.get(idx));
+                        } catch (Exception e) {
+                            rethrowException(e);
                         }
-                        field.setAccessible(false);
+                        fld.setAccessible(false);
                     }
                 }
             }
@@ -80,27 +80,49 @@ public class OperationStateInitializer {
     //                            Helper methods
     // ---------------------------------------------------------------------
 
-    protected static void rethrowException(Exception err) {
-        Throwable cause = err.getCause();
+    /**
+     * Reflection wraps any custom exceptions, however we can get them
+     * through the cause and throw it.
+     *
+     * @param e exception
+     */
+    protected static void rethrowException(Exception e) {
+        Throwable cause = e.getCause();
         if (OperationParseException.class.isAssignableFrom(cause.getClass())) {
             throw (RuntimeException) cause;
         }
     }
 
+    /**
+     * @param tokens
+     * @param tokenAlias
+     * @return
+     */
     protected static int getTokenIndex(List<Token> tokens, String tokenAlias) {
         for (int idx = 0; idx < tokens.size(); idx++) {
             Token token = tokens.get(idx);
-            if (tokenAlias.equals(token.getName()/*alias*/)) {
+            //
+            //
+            //
+            if (tokenAlias.equals(token.getName())) {
                 return idx;
             }
         }
         return -1;
     }
 
-    protected static Method findSetterForField(Method[] methods, String fieldName) {
+    /**
+     * Searches for field setter.
+     *
+     * @param methods   the given methods
+     * @param fieldName name of field
+     * @return a setter
+     */
+    protected static Method findAccessor(Method[] methods, String fieldName) {
         for (Method method : methods) {
             String methodName = method.getName();
-            if ("set".concat(fieldName.toLowerCase()).equals(methodName.toLowerCase())) {
+            if ("set".concat(fieldName.toLowerCase())
+                    .equals(methodName.toLowerCase())) {
                 return method;
             }
         }

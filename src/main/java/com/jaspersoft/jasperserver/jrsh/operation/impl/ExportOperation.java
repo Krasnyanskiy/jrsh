@@ -54,7 +54,7 @@ import static org.joda.time.DateTimeZone.UTC;
 @Data
 @Master(name = "export",
         usage = "export [context] [parameters]",
-        description = "Operation <export> is used to download JRS resources")
+        description = "<export> is used to download JRS resources")
 public class ExportOperation implements Operation {
 
     private static final String FORMATTED_OK_MSG = "Export status: Success (File has been created: %s)";
