@@ -36,16 +36,19 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface Parameter {
 
-    String name() default "";
+    String name()
+            default "";
 
-    boolean mandatory() default false;
+    boolean mandatory()
+            default false;
 
-    String[] dependsOn() default {};
+    String[] dependsOn()
+            default {};
 
-    Value[] values() default {};
+    Value[] values()
+            default {};
 
-    String[] ruleGroups() default {
-            "COMMON_GROUP"
-    };
+    String[] ruleGroups()
+            default { "COMMON_GROUP" };
 
 }

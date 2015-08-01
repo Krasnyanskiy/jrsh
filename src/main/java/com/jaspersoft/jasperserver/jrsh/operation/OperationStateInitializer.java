@@ -50,18 +50,27 @@ public abstract class OperationStateInitializer {
                                   List<Token> operationRuleTokens,
                                   List<String> userInputTokens) {
         Class<? extends Operation> clz = operation.getClass();
-        Field[] fields = clz.getDeclaredFields();
-        for (Field fld : fields) {
+
+        for (Field fld : clz.getDeclaredFields()) {
             Parameter param = fld.getAnnotation(Parameter.class);
             if (param != null) {
                 Value[] values = param.values();
+
                 for (Value val : values) {
                     String alias = val.tokenAlias();
                     int idx = getTokenIndex(operationRuleTokens, alias);
+                    //
+                    //
+                    //
                     if (idx >= 0) {
-                        fld.setAccessible(true); // setup accessibility
-                        Method accessor =
-                                findAccessor(clz.getMethods(), fld.getName());
+                        //
+                        // Setup accessibility
+                        //
+                        fld.setAccessible(true);
+                        //
+                        // Set operation parameters via accessors
+                        //
+                        Method accessor = findAccessor(clz.getMethods(), fld.getName());
                         if (accessor == null) {
                             throw new CannotFindAccessorException(fld.getName());
                         } else try {
@@ -69,6 +78,9 @@ public abstract class OperationStateInitializer {
                         } catch (Exception e) {
                             rethrowException(e);
                         }
+                        //
+                        // Restore access
+                        //
                         fld.setAccessible(false);
                     }
                 }
@@ -96,7 +108,7 @@ public abstract class OperationStateInitializer {
     /**
      * @param tokens
      * @param tokenAlias
-     * @return
+     * @return token index
      */
     protected static int getTokenIndex(List<Token> tokens, String tokenAlias) {
         for (int idx = 0; idx < tokens.size(); idx++) {

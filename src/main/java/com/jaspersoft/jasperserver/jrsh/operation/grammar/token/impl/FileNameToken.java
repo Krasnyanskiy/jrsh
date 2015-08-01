@@ -30,11 +30,21 @@ import java.io.File;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @EqualsAndHashCode(callSuper = true)
 public class FileNameToken extends AbstractToken {
 
-    public FileNameToken(String name, String value, boolean mandatory, boolean tailOfRule) {
+    /**
+     * Constructs a new {@link FileNameToken}.
+     *
+     * @param name       token name
+     * @param value      token value
+     * @param mandatory  true if mandatory
+     * @param tailOfRule is last token in rule
+     */
+    public FileNameToken(String name, String value,
+                         boolean mandatory, boolean tailOfRule) {
         super(name, value, mandatory, tailOfRule);
     }
 

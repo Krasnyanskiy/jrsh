@@ -56,7 +56,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Plain implementation of {@link GrammarParser} interface.
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class PlainGrammarParser implements GrammarParser {
 
@@ -65,6 +68,14 @@ public class PlainGrammarParser implements GrammarParser {
     private static Map<String, RuleGroup> groups;
     private static Token root;
 
+    /**
+     * Parses operation grammar using Search Graph algorithm for
+     * building all possible grammar paths.
+     *
+     * @param operation operation instance
+     * @return operation grammar
+     * @throws OperationParseException
+     */
     public Grammar parseGrammar(Operation operation)
             throws OperationParseException {
         graph = new DefaultDirectedGraph<>(new TokenEdgeFactory());
@@ -213,7 +224,7 @@ public class PlainGrammarParser implements GrammarParser {
 
 
     //
-    // toFix { refactoring is needed (!) }
+    // toFix { refactoring needed (!) }
     //
     protected boolean isValidRule(final Rule rule) {
         List<Token> tokens = rule.getTokens();
@@ -328,7 +339,7 @@ public class PlainGrammarParser implements GrammarParser {
     @Data
     @EqualsAndHashCode
     protected class OperationParameter {
-        Set<Token> tokens = new HashSet<Token>();
+        Set<Token> tokens = new HashSet<>();
 
         Set<Token> getOnlyMandatoryTokens() {
             Set<Token> mandatoryTokens = new HashSet<>();

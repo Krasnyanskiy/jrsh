@@ -39,12 +39,36 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface Value {
 
-    String tokenAlias() default "";
+    /**
+     * Used for token binding.
+     *
+     * @return a token alias
+     */
+    String tokenAlias()
+            default "";
 
-    String tokenValue() default "";
+    /**
+     * Returns a value of token defined in the operation.
+     *
+     * @return token value
+     */
+    String tokenValue()
+            default "";
 
-    boolean tail() default false;
+    /**
+     * Define if value is a tail in the rule.
+     *
+     * @return true if tail
+     */
+    boolean tail()
+            default false;
 
-    Class<? extends Token> tokenClass() default AnyStringToken.class;
+    /**
+     * Define a class of corresponding token
+     *
+     * @return type
+     */
+    Class<? extends Token> tokenClass()
+            default AnyStringToken.class;
 
 }

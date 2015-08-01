@@ -45,18 +45,21 @@ public class App {
      */
     public static void main(String[] args) {
         //
-        // Reset Jersey logger to prevent console pollution
-        // by Rest Client.
+        // Reset Jersey logger to prevent console pollution by
+        // REST Client.
         //
         LogManager.getLogManager().reset();
         //
-        // Define an evaluation strategy and evaluate scripts
-        // (Set of operation).
+        // Define an evaluation strategy and evaluate the script
         //
         EvaluationStrategyFactory strategyFactory =
                 new EvaluationStrategyFactoryImpl();
-        EvaluationStrategy strategy = strategyFactory.getStrategy(args);
-        OperationResult result = strategy.eval(convertToScript(args));
+
+        EvaluationStrategy strategy =
+                strategyFactory.getStrategy(args);
+
+        OperationResult result =
+                strategy.eval(convertToScript(args));
 
         exit(result.getResultCode().getValue());
     }

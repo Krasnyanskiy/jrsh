@@ -21,11 +21,11 @@
 package com.jaspersoft.jasperserver.jrsh.completion;
 
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.Grammar;
+import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.PlainGrammarParser;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.rule.Rule;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
-import com.jaspersoft.jasperserver.jrsh.operation.grammar.parser.PlainGrammarParser;
+import jline.console.ConsoleReader;
 import jline.console.completer.AggregateCompleter;
 import jline.console.completer.ArgumentCompleter;
 import jline.console.completer.Completer;
@@ -34,30 +34,50 @@ import jline.console.completer.NullCompleter;
 import java.util.List;
 import java.util.Set;
 
+import static com.jaspersoft.jasperserver.jrsh.operation.OperationFactory.createOperationsByTypes;
+
 /**
+ * Used to retrieve a fully configured completer to setup
+ * {@link ConsoleReader}'s autocompletion.
+ *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 public class CompleterFactory {
 
+    /**
+     * Generates an aggregated completer based on the operation
+     * metadata.
+     *
+     * @return aggregated completer
+     */
     public static Completer create() {
-        Set<Operation> operations = OperationFactory.createOperationsByTypes();
-        AggregateCompleter aggregatedCompleter = new AggregateCompleter();
+        Set<Operation> operations = createOperationsByTypes();
+        AggregateCompleter aggregatedCompleter =
+                new AggregateCompleter();
 
         for (Operation operation : operations) {
-            Grammar grammar = new PlainGrammarParser().parseGrammar(operation);
-            List<Rule> rules = grammar.getRules();
-            ArgumentCompleter ruleCompleter = new ArgumentCompleter();
+            Grammar grammar = new PlainGrammarParser()
+                    .parseGrammar(operation);
 
-            for (Rule rule : rules) {
+            ArgumentCompleter ruleCompleter =
+                    new ArgumentCompleter();
+
+            for (Rule rule : grammar.getRules()) {
                 List<Token> tokens = rule.getTokens();
 
-                for (Token token : tokens) {
-                    Completer completer = token.getCompleter();
-                    ruleCompleter.getCompleters().add(completer);
+                for (Token tkn : tokens) {
+                    ruleCompleter
+                            .getCompleters()
+                            .add(tkn.getCompleter());
                 }
 
-                ruleCompleter.getCompleters().add(new NullCompleter());
-                aggregatedCompleter.getCompleters().add(ruleCompleter);
+                ruleCompleter
+                        .getCompleters()
+                        .add(new NullCompleter());
+                aggregatedCompleter
+                        .getCompleters()
+                        .add(ruleCompleter);
                 ruleCompleter = new ArgumentCompleter();
             }
         }

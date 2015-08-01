@@ -18,27 +18,8 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.operation;
-
-import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
 /**
- * This interface represents business logic of an operation.
- *
- * @author Alexander Krasnyanskiy
- * @since 2.0
+ * Grammar classes.
  */
-public interface Operation {
-
-    /**
-     * Executes operation logic and returns operation result.
-     * Could be interactive (interacts with JRS via the session)
-     * or non-interactive.
-     *
-     * @param session the session to set
-     * @return an operation result
-     */
-    OperationResult execute(Session session);
-
-}
+package com.jaspersoft.jasperserver.jrsh.operation.grammar;

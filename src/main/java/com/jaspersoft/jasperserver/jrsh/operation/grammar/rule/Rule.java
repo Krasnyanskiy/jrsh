@@ -31,8 +31,18 @@ import java.util.List;
  */
 public interface Rule {
 
+    /**
+     * Returns tokens of this rule.
+     *
+     * @return tokens
+     */
     List<Token> getTokens();
 
+    /**
+     * Adds a token to the rule.
+     *
+     * @param token a token
+     */
     void addToken(Token token);
 
 }

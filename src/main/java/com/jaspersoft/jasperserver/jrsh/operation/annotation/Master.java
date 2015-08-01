@@ -45,28 +45,34 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Master {
 
     /**
-     * @return operation name which is used for parsing
+     * @return operation name which is used for
+     *         parsing purposes
      */
-    String name() default "";
+    String name()
+            default "";
 
     /**
      * @return true if operation name is tailed
      */
-    boolean tail() default false;
+    boolean tail()
+            default false;
 
     /**
      * @return operation description
      */
-    String description() default "Not specified";
+    String description()
+            default "Not specified";
 
     /**
      * @return usage info
      */
-    String usage() default "Not specified";
+    String usage()
+            default "Not specified";
 
     /**
      * @return token type for operation name token
      */
-    Class<? extends Token> tokenClass() default StringToken.class;
+    Class<? extends Token> tokenClass()
+            default StringToken.class;
 
 }

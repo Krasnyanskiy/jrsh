@@ -39,8 +39,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface Prefix {
 
-    String value() default "";
+    String value()
+            default "";
 
-    Class<? extends Token> tokenClass() default StringToken.class;
+    Class<? extends Token> tokenClass()
+            default StringToken.class;
 
 }

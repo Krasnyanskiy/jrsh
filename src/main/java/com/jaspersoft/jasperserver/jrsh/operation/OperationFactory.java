@@ -70,7 +70,7 @@ public abstract class OperationFactory {
      * @return operation
      */
     public static Operation createOperationByName(String operationName) {
-        Class<? extends Operation> operationType = operations.get(operationName);
+        val operationType = operations.get(operationName);
         if (operationType == null) {
             throw new OperationNotFoundException();
         }
@@ -96,7 +96,9 @@ public abstract class OperationFactory {
      * @param operationType the type of operation
      * @return an operation instance
      */
-    private static <T extends Operation> T createInstance(Class<T> operationType) {
+    private static <T extends Operation> T createInstance(
+            Class<T> operationType)
+    {
         try {
             return operationType.newInstance();
         } catch (Exception err) {
