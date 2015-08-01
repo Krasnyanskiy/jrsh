@@ -34,7 +34,8 @@ import static com.jaspersoft.jasperserver.jrsh.operation.grammar.token.TokenPrec
  * @author Alexander Krasnyanskiy
  * @since 2.0
  */
-public class EvaluationStrategyFactoryImpl implements EvaluationStrategyFactory {
+public class EvaluationStrategyFactoryImpl
+        implements EvaluationStrategyFactory {
 
     /**
      * {@inheritDoc}
@@ -45,7 +46,9 @@ public class EvaluationStrategyFactoryImpl implements EvaluationStrategyFactory 
 
         if (arguments.length == 1 && isConnectionString(arguments[0])) {
             strategyType = ShellEvaluationStrategy.class;
-        } else if (arguments.length == 2 && "--script".equals(arguments[0]) && isScriptFileName(arguments[1])) {
+        } else if (arguments.length == 2
+                && "--script".equals(arguments[0])
+                && isScriptFileName(arguments[1])) {
             strategyType = ScriptEvaluationStrategy.class;
         } else {
             strategyType = ToolEvaluationStrategy.class;

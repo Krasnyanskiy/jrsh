@@ -25,14 +25,16 @@ import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFa
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.EvaluationStrategyFactoryImpl;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 
+import java.util.logging.LogManager;
+
 import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScript;
-import static java.util.logging.LogManager.getLogManager;
+import static java.lang.System.exit;
 
 /**
  * {@link App} class used to bootstrap and launch an application.
  *
  * @author Alexander Krasnyanskiy
- * @since 1.0
+ * @since 2.0
  */
 public class App {
 
@@ -42,24 +44,21 @@ public class App {
      * @param args application arguments
      */
     public static void main(String[] args) {
-
-        resetLogger();
-
+        //
+        // Reset Jersey logger to prevent console pollution
+        // by Rest Client.
+        //
+        LogManager.getLogManager().reset();
+        //
+        // Define an evaluation strategy and evaluate scripts
+        // (Set of operation).
+        //
         EvaluationStrategyFactory strategyFactory =
                 new EvaluationStrategyFactoryImpl();
         EvaluationStrategy strategy = strategyFactory.getStrategy(args);
         OperationResult result = strategy.eval(convertToScript(args));
 
-        System.exit(result.getResultCode().getValue());
-    }
-
-    /**
-     * Reset Jersey logger to prevent console pollution,
-     * which appeared in 6.0.4 version of Rest Client after
-     * Jersey version upgrade.
-     */
-    private static void resetLogger() {
-        getLogManager().reset();
+        exit(result.getResultCode().getValue());
     }
 
 }

@@ -21,8 +21,6 @@
 package com.jaspersoft.jasperserver.jrsh.operation.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.common.SessionBuilder;
-import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;
@@ -32,10 +30,10 @@ import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.WrongConnecti
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import lombok.Data;
 
+import static com.jaspersoft.jasperserver.jrsh.common.SessionFactory.createSharedSession;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCESS;
 import static java.lang.String.format;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * @author Alexander Krasnyanskiy
@@ -70,6 +68,9 @@ public class LoginOperation implements Operation {
     public OperationResult execute(Session ignored) {
         OperationResult result;
         try {
+
+            /*
+            // fixme { init() in SessionStorage }
             Session session = new SessionBuilder()
                     .withUrl(server)
                     .withPassword(password)
@@ -78,8 +79,13 @@ public class LoginOperation implements Operation {
                     .withReadTimeout(4L, SECONDS)
                     .withConnectionTimeout(4L, SECONDS)
                     .build();
-
             SessionHolder.save(session);
+            */
+
+            createSharedSession(server,
+                                username,
+                                password,
+                                organization);
 
             result = new OperationResult(
                     format(FORMATTED_OK_MSG, username), SUCCESS,
@@ -87,8 +93,8 @@ public class LoginOperation implements Operation {
             );
         } catch (Exception err) {
             result = new OperationResult(
-                    format(FORMATTED_FAILURE_MSG, err.getMessage()), FAILED,
-                    this, null
+                    format(FORMATTED_FAILURE_MSG, err.getMessage()),
+                    FAILED, this, null
             );
         }
         return result;

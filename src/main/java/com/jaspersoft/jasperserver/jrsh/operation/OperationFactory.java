@@ -43,7 +43,7 @@ public abstract class OperationFactory {
     // Available operations container
     //
     private static final Map<String, Class<? extends Operation>> operations =
-            new HashMap<String, Class<? extends Operation>>();
+            new HashMap<>();
     //
     // Base operation impl package
     //
@@ -83,7 +83,7 @@ public abstract class OperationFactory {
      * @return a set of operations
      */
     public static Set<Operation> createOperationsByTypes() {
-        HashSet<Operation> setOfOperations = new HashSet<Operation>();
+        HashSet<Operation> setOfOperations = new HashSet<>();
         for (val type : operations.values()) {
             setOfOperations.add(createInstance(type));
         }

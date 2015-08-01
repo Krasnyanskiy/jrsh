@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.common.ConsoleBuilder;
-import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.completion.CompleterFactory;
 import com.jaspersoft.jasperserver.jrsh.completion.CustomCompletionHandler;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
@@ -38,6 +38,7 @@ import jline.console.completer.Completer;
 import java.io.IOException;
 import java.util.List;
 
+import static com.jaspersoft.jasperserver.jrsh.common.SessionFactory.getSharedSession;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.INTERRUPTED;
 
@@ -64,7 +65,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
         OperationResult result = null;
         while (true) {
             try {
-                Session session = SessionHolder.getSharedSession();
+                Session session = getSharedSession();
                 if (line == null) {
                     line = console.readLine();
                 }
@@ -85,6 +86,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
                                     operation,
                                     null);
                         } else {
+                            // fixme {should be delegated to the Help operation (!)}
                             Master master = operation.getClass().getAnnotation(Master.class);
                             String usage = master.usage();
                             print("usage: " + usage);
@@ -130,7 +132,7 @@ public class ShellEvaluationStrategy extends AbstractEvaluationStrategy {
 
     protected void logout() {
         try {
-            SessionHolder.getSharedSession().logout();
+            SessionFactory.getSharedSession().logout();
         } catch (Exception ignored) {
         }
     }

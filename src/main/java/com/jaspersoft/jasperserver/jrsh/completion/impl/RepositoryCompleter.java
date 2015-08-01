@@ -21,10 +21,14 @@
 package com.jaspersoft.jasperserver.jrsh.completion.impl;
 
 import com.jaspersoft.jasperserver.dto.resources.ClientResourceLookup;
-import com.jaspersoft.jasperserver.jaxrs.client.core.*;
+import com.jaspersoft.jasperserver.jaxrs.client.core.AuthenticationCredentials;
+import com.jaspersoft.jasperserver.jaxrs.client.core.JasperserverRestClient;
+import com.jaspersoft.jasperserver.jaxrs.client.core.RestClientConfiguration;
+import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
+import com.jaspersoft.jasperserver.jaxrs.client.core.SessionStorage;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.AuthenticationFailedException;
 import com.jaspersoft.jasperserver.jaxrs.client.core.exceptions.ResourceNotFoundException;
-import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import jline.console.completer.Completer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -198,14 +202,14 @@ public class RepositoryCompleter implements Completer {
     //---------------------------------------------------------------------
 
     private void reopenSession() {
-        Session session = SessionHolder.getSharedSession();
+        Session session = SessionFactory.getSharedSession();
         if (session != null) {
             SessionStorage storage = session.getStorage();
             AuthenticationCredentials credentials = storage.getCredentials();
             RestClientConfiguration cfg = storage.getConfiguration();
             JasperserverRestClient client = new JasperserverRestClient(cfg);
             session = client.authenticate(credentials.getUsername(), credentials.getPassword());
-            SessionHolder.save(session);
+            SessionFactory.updateSharedSession(session);
         }
     }
 
@@ -263,7 +267,7 @@ public class RepositoryCompleter implements Completer {
             List<ClientResourceLookup> lookups;
 
             try {
-                lookups = SessionHolder.getSharedSession()
+                lookups = SessionFactory.getSharedSession()
                         .resourcesService()
                         .resources()
                         .parameter(FOLDER_URI, path)

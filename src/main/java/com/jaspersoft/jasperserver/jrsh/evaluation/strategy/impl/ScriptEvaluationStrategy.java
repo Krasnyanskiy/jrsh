@@ -30,7 +30,7 @@ import jline.console.ConsoleReader;
 import java.io.IOException;
 import java.util.List;
 
-import static com.jaspersoft.jasperserver.jrsh.common.SessionHolder.getSharedSession;
+import static com.jaspersoft.jasperserver.jrsh.common.SessionFactory.getSharedSession;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 
 /**

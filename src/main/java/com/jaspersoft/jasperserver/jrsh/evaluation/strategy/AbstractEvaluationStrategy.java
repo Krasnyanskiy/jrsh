@@ -32,10 +32,13 @@ import lombok.Data;
  * @author Alexander Krasnyanskiy
  */
 @Data
-public abstract class AbstractEvaluationStrategy implements EvaluationStrategy {
+public abstract class AbstractEvaluationStrategy
+        implements EvaluationStrategy {
     protected OperationParser parser;
 
     public AbstractEvaluationStrategy() {
-        this.parser = new LL1OperationParser(new PathConsideringLexer(), new PlainGrammarParser());
+        this.parser =
+                new LL1OperationParser(new PathConsideringLexer(),
+                        new PlainGrammarParser());
     }
 }

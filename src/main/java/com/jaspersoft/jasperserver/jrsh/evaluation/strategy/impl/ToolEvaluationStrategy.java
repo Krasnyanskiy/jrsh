@@ -21,7 +21,7 @@
 package com.jaspersoft.jasperserver.jrsh.evaluation.strategy.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
-import com.jaspersoft.jasperserver.jrsh.common.SessionHolder;
+import com.jaspersoft.jasperserver.jrsh.common.SessionFactory;
 import com.jaspersoft.jasperserver.jrsh.evaluation.strategy.AbstractEvaluationStrategy;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
 import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
@@ -43,7 +43,7 @@ public class ToolEvaluationStrategy extends AbstractEvaluationStrategy {
 
         try {
             for (String operation : source) {
-                Session session = SessionHolder.getSharedSession();
+                Session session = SessionFactory.getSharedSession();
                 operationInstance = parser.parseOperation(operation);
                 OperationResult temp = result;
                 result = operationInstance.execute(session);

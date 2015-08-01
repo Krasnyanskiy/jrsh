@@ -29,6 +29,7 @@ import com.jaspersoft.jasperserver.jrsh.operation.parser.exception.OperationPars
  */
 public interface GrammarParser {
 
-    Grammar parseGrammar(Operation operation) throws OperationParseException;
+    Grammar parseGrammar(Operation operation)
+            throws OperationParseException;
 
 }
