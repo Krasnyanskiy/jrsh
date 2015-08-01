@@ -18,27 +18,8 @@
  * You should have received a copy of the GNU Affero General Public  License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.jrsh.operation.grammar.graph;
-
-import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.Token;
-import org.jgrapht.EdgeFactory;
 
 /**
- * A custom implementation of {@link EdgeFactory} interface. Used to
- * for creating new {@link Token} edges.
- *
- * @author Alexander Krasnyanskiy
- * @since 2.0
+ * Rule token classes.
  */
-public class TokenEdgeFactory
-        implements EdgeFactory<Token, TokenEdge<Token>> {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TokenEdge<Token> createEdge(Token source, Token target) {
-        return new TokenEdge<Token>(source, target);
-    }
-
-}
+package com.jaspersoft.jasperserver.jrsh.operation.grammar.token;
