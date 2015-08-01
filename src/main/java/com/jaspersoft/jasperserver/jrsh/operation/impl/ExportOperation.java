@@ -47,6 +47,7 @@ import java.util.List;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.FAILED;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCESS;
 import static java.lang.String.format;
+import static java.lang.System.getProperty;
 import static org.joda.time.DateTimeZone.UTC;
 
 /**
@@ -58,40 +59,92 @@ import static org.joda.time.DateTimeZone.UTC;
         description = "<export> is used to download JRS resources")
 public class ExportOperation implements Operation {
 
-    private static final String FORMATTED_OK_MSG = "Export status: Success (File has been created: %s)";
-    private static final String FAILURE_MSG = "Export failed";
-    private static final String FORMATTED_FAILURE_MSG = "Export failed (%s)";
+    private static final String FORMATTED_OK_MSG =
+            "Export status: Success (File has been created: %s)";
+    private static final String FAILURE_MSG =
+            "Export failed";
+    private static final String FORMATTED_FAILURE_MSG =
+            "Export failed (%s)";
 
-    @Parameter(mandatory = true, dependsOn = "export", values =
-    @Value(tokenAlias = "RE", tokenClass = StringToken.class, tokenValue = "repository"))
+    @Parameter(mandatory = true, dependsOn = "export",
+            values = @Value(
+                    tokenAlias = "RE", tokenClass = StringToken.class,
+                    tokenValue = "repository"
+            )
+    )
     private String context;
-    @Parameter(mandatory = true, dependsOn = "export", ruleGroups = "BRANCH", values =
-    @Value(tokenAlias = "OL", tokenClass = StringToken.class, tokenValue = "all", tail = true))
+
+    @Parameter(mandatory = true, dependsOn = "export",
+            ruleGroups = "BRANCH",
+            values = @Value(
+                    tokenAlias = "OL", tokenClass = StringToken.class,
+                    tokenValue = "all", tail = true
+            )
+    )
     private String all;
-    @Parameter(mandatory = true, dependsOn = "RE", values =
-    @Value(tokenAlias = "RP", tokenClass = RepositoryToken.class, tail = true))
+
+    @Parameter(mandatory = true, dependsOn = "RE",
+            values = @Value(
+                    tokenAlias = "RP", tokenClass = RepositoryToken.class,
+                    tail = true
+            )
+    )
     private String repositoryPath;
-    @Parameter(dependsOn = "RP", values =
-    @Value(tokenAlias = "->", tokenClass = StringToken.class, tokenValue = "to"))
+    @Parameter(dependsOn = "RP",
+            values = @Value(
+                    tokenAlias = "->", tokenClass = StringToken.class,
+                    tokenValue = "to"
+            )
+    )
     private String to;
-    @Parameter(dependsOn = "->", values =
-    @Value(tokenAlias = "F", tokenClass = FileNameToken.class, tail = true))
+
+    @Parameter(dependsOn = "->",
+            values = @Value(
+                    tokenAlias = "F", tokenClass = FileNameToken.class,
+                    tail = true
+            )
+    )
     private String fileUri;
 
-    @Parameter(dependsOn = {"F", "RP", "IUR", "IME", "RPP", "IAE"}, values =
-    @Value(tokenAlias = "UR", tokenClass = StringToken.class, tokenValue = "with-user-roles", tail = true))
+    @Parameter(dependsOn = {"F", "RP", "IUR", "IME", "RPP", "IAE"},
+            values = @Value(
+                    tokenAlias = "UR", tokenClass = StringToken.class,
+                    tokenValue = "with-user-roles", tail = true
+            )
+    )
     private String withUserRoles;
-    @Parameter(dependsOn = {"F", "RP", "UR", "IME", "RPP", "IAE"}, values =
-    @Value(tokenAlias = "IUR", tokenClass = StringToken.class, tokenValue = "with-include-audit-events", tail = true))
+
+    @Parameter(dependsOn = {"F", "RP", "UR", "IME", "RPP", "IAE"},
+            values = @Value(
+                    tokenAlias = "IUR", tokenClass = StringToken.class,
+                    tokenValue = "with-include-audit-events", tail = true
+            )
+    )
     private String withIncludeAuditEvents;
-    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "RPP", "IAE"}, values =
-    @Value(tokenAlias = "IME", tokenClass = StringToken.class, tokenValue = "with-include-monitoring-events", tail = true))
+
+    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "RPP", "IAE"},
+            values = @Value(
+                    tokenAlias = "IME", tokenClass = StringToken.class,
+                    tokenValue = "with-include-monitoring-events",
+                    tail = true
+            )
+    )
     private String withIncludeMonitoringEvents;
-    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "IME", "IAE"}, values =
-    @Value(tokenAlias = "RPP", tokenClass = StringToken.class, tokenValue = "with-repository-permissions", tail = true))
+
+    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "IME", "IAE"},
+            values = @Value(
+                    tokenAlias = "RPP", tokenClass = StringToken.class,
+                    tokenValue = "with-repository-permissions", tail = true
+            )
+    )
     private String withRepositoryPermissions;
-    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "RPP", "IME"}, values =
-    @Value(tokenAlias = "IAE", tokenClass = StringToken.class, tokenValue = "with-include-access-events", tail = true))
+
+    @Parameter(dependsOn = {"F", "RP", "UR", "IUR", "RPP", "IME"},
+            values = @Value(
+                    tokenAlias = "IAE", tokenClass = StringToken.class,
+                    tokenValue = "with-include-access-events", tail = true
+            )
+    )
     private String withIncludeAccessEvents;
 
     @Override
@@ -118,7 +171,8 @@ public class ExportOperation implements Operation {
                 if (to != null) {
                     if (fileUri != null) {
                         if (fileUri.startsWith("~")) {
-                            fileUri = fileUri.replaceFirst("^~", System.getProperty("user.home"));
+                            fileUri = fileUri.replaceFirst("^~",
+                                    getProperty("user.home"));
                             if (!SystemUtils.IS_OS_WINDOWS) {
                                 fileUri = fileUri.replaceAll("\\\\", "");
                             }
@@ -128,7 +182,7 @@ public class ExportOperation implements Operation {
                     }
                 } else {
                     DateTime dateTime = DateTime.now().toDateTime(UTC);
-                    File target = new File(String.format("export_%s.zip", dateTime));
+                    File target = new File(format("export_%s.zip", dateTime));
                     FileUtils.copyInputStreamToFile(entity, target);
                     fileUri = target.getAbsolutePath();
                 }
@@ -145,13 +199,17 @@ public class ExportOperation implements Operation {
                         .getEntity();
 
                 DateTime dateTime = DateTime.now().toDateTime(UTC);
-                File target = new File(String.format("export_%s.zip", dateTime));
+                File target = new File(format("export_%s.zip", dateTime));
                 FileUtils.copyInputStreamToFile(entity, target);
                 fileUri = target.getAbsolutePath();
             }
-            result = new OperationResult(format(FORMATTED_OK_MSG, fileUri), SUCCESS, this, null);
+            result = new OperationResult(
+                    format(FORMATTED_OK_MSG, fileUri), SUCCESS,
+                    this, null);
         } catch (Exception err) {
-            result = new OperationResult(FAILURE_MSG, FAILED, this, null);
+            result = new OperationResult(
+                    FAILURE_MSG, FAILED,
+                    this, null);
         }
 
         return result;

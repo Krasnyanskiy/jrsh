@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2005 - 2015 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
@@ -23,15 +22,15 @@ package com.jaspersoft.jasperserver.jrsh.operation.impl;
 
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.operation.OperationFactory;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
+import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 
+import static com.jaspersoft.jasperserver.jrsh.operation.OperationFactory.createOperationsByTypes;
 import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCESS;
 
 /**
@@ -50,11 +49,12 @@ public class HelpOperation implements Operation {
 
     @Override
     public OperationResult execute(Session session) {
-        Set<Operation> operations = OperationFactory.createOperationsByTypes();
+        Set<Operation> operations = createOperationsByTypes();
 
         StringBuilder builder = new StringBuilder("*** HOW TO USE ***")
                 .append(LF)
-                .append("To start working with 'jrsh' in shell mode you need to specify server: ")
+                .append("To start working with 'jrsh' in shell " +
+                        "mode you need to specify server: ")
                 .append(LF)
                 .append("   $ jrsh username%password@url")
                 .append(DLF)
