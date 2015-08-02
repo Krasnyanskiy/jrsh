@@ -48,6 +48,7 @@ import static java.lang.System.getProperty;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Data
 @Log4j
@@ -191,16 +192,17 @@ public class ImportOperation implements Operation {
     }
 
     protected String getPhase(StateDto state, Session session) {
-        return session.exportService()
+        return session
+                .exportService()
                 .task(state.getId())
                 .state()
                 .getEntity()
                 .getPhase();
     }
 
+    // fixme
     protected List<ImportParameter> convertImportParameters() {
-        List<ImportParameter> parameters =
-                new ArrayList<ImportParameter>();
+        List<ImportParameter> parameters = new ArrayList<>();
         if (withIncludeAccessEvents != null) {
             parameters.add(ImportParameter.INCLUDE_ACCESS_EVENTS);
         }

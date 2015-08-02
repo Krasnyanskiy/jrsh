@@ -25,13 +25,14 @@ import java.util.List;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0.3
  */
 public class PathConsideringLexer implements Lexer {
 
     @Override
     public List<String> convert(String line) {
         String word = "";
-        ArrayList<String> tokens = new ArrayList<String>();
+        ArrayList<String> tokens = new ArrayList<>();
         for (String part : line.split("\\s+")) {
             if (part.endsWith("\\")) {
                 word = word.concat(part).concat(" ");

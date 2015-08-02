@@ -92,8 +92,7 @@ public class PlainGrammarParser implements GrammarParser {
                     master.tokenClass(),
                     master.name(),
                     master.name(),
-                    true,
-                    true
+                    true, true
             );
 
             if (master.tail()) {
@@ -102,10 +101,8 @@ public class PlainGrammarParser implements GrammarParser {
                 rules.add(rule);
             }
 
-            dependencies.put(
-                    root.getName(),
-                    new ImmutablePair<>(root, new String[]{})
-            );
+            dependencies.put(root.getName(),
+                    new ImmutablePair<>(root, new String[]{}));
 
             graph.addVertex(root);
 
@@ -184,15 +181,13 @@ public class PlainGrammarParser implements GrammarParser {
 
         buildGraphEdges();
 
-        if (!(graph.vertexSet().size() == 1
-                && graph.vertexSet().contains(root))) {
+        if (!(graph.vertexSet().size() == 1 && graph.vertexSet().contains(root))) {
             rules.addAll(buildRules());
         }
         if (!rules.isEmpty()) {
             grammar.addRules(rules);
-        } else {
-            throw new WrongOperationFormatException();
-        }
+        } else throw new WrongOperationFormatException();
+
         return grammar;
     }
 
@@ -283,8 +278,10 @@ public class PlainGrammarParser implements GrammarParser {
     }
 
     protected Token createToken(Class<? extends Token> tokenType,
-                                String tokenName, String tokenValue,
-                                boolean mandatory, boolean tail)
+                                String tokenName,
+                                String tokenValue,
+                                boolean mandatory,
+                                boolean tail)
             throws CannotCreateTokenException {
         try {
             return tokenType.getConstructor(String.class, String.class,

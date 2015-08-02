@@ -32,12 +32,15 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Annotation for operation configuration. Add this to
- * the {@link Operation} class definition if you want to set
- * operation metadata which used for operation completion and
- * parsing.
+ * This annotation used to mark any {@link Operation}'s
+ * successor. In that case, using this annotation, you can
+ * make successor embedded into JRSH as business command.
+ * <p/>
+ * This annotation can also be used to set metadata of
+ * the {@link Operation}.
  *
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Target(TYPE)
 @Retention(RUNTIME)
@@ -45,6 +48,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Master {
 
     /**
+     * Returns operation name.
+     *
      * @return operation name which is used for
      *         parsing purposes
      */
@@ -52,25 +57,35 @@ public @interface Master {
             default "";
 
     /**
-     * @return true if operation name is tailed
+     * Signals if operation name is a tail.
+     *
+     * @return true
+     *              if operation name is tailed
      */
     boolean tail()
             default false;
 
     /**
+     * Returns operation description.
+     *
      * @return operation description
      */
     String description()
             default "Not specified";
 
     /**
+     * Returns operation usage.
+     *
      * @return usage info
      */
     String usage()
             default "Not specified";
 
     /**
-     * @return token type for operation name token
+     * Defines a token class.
+     *
+     * @return
+     *         a token type
      */
     Class<? extends Token> tokenClass()
             default StringToken.class;

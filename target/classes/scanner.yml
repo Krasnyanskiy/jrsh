@@ -1,0 +1,8 @@
+# You can specify here the packages and classes
+# that contain your business operations
+---
+packages:
+  - com.test.pack.operation.*
+  - org.test.operation.*
+classes:
+  - some.pack.operation.impl.DummyOperation

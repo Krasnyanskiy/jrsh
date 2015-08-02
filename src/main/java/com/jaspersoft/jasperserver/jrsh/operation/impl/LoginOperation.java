@@ -37,6 +37,7 @@ import static java.lang.String.format;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Data
 @Master(name = "login",
@@ -68,20 +69,6 @@ public class LoginOperation implements Operation {
     public OperationResult execute(Session ignored) {
         OperationResult result;
         try {
-
-            /*
-            // fixme { init() in SessionStorage }
-            Session session = new SessionBuilder()
-                    .withUrl(server)
-                    .withPassword(password)
-                    .withUsername(username)
-                    .withOrganization(organization)
-                    .withReadTimeout(4L, SECONDS)
-                    .withConnectionTimeout(4L, SECONDS)
-                    .build();
-            SessionHolder.save(session);
-            */
-
             createSharedSession(server,
                                 username,
                                 password,

@@ -27,13 +27,13 @@ import com.jaspersoft.jasperserver.jaxrs.client.apiadapters.importexport.exports
 import com.jaspersoft.jasperserver.jaxrs.client.core.Session;
 import com.jaspersoft.jasperserver.jaxrs.client.dto.importexport.StateDto;
 import com.jaspersoft.jasperserver.jrsh.operation.Operation;
-import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Master;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Parameter;
 import com.jaspersoft.jasperserver.jrsh.operation.annotation.Value;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.FileNameToken;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.RepositoryToken;
 import com.jaspersoft.jasperserver.jrsh.operation.grammar.token.impl.StringToken;
+import com.jaspersoft.jasperserver.jrsh.operation.result.OperationResult;
 import lombok.Data;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -52,6 +52,7 @@ import static org.joda.time.DateTimeZone.UTC;
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Data
 @Master(name = "export",
@@ -216,7 +217,7 @@ public class ExportOperation implements Operation {
     }
 
     protected List<ExportParameter> convertExportParameters() {
-        List<ExportParameter> parameters = new ArrayList<ExportParameter>();
+        List<ExportParameter> parameters = new ArrayList<>();
         if (withIncludeAccessEvents != null) {
             parameters.add(ExportParameter.INCLUDE_ACCESS_EVENTS);
         }

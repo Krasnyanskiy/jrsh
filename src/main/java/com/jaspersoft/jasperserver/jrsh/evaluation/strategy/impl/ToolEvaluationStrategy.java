@@ -51,22 +51,35 @@ public class ToolEvaluationStrategy extends AbstractEvaluationStrategy {
                 result.setPrevious(temp);
             }
         } catch (Exception error) {
-            System.out.println(error.getMessage());
-            Operation help = createOperationByName("help");
-            System.out.println(help.execute(null).getResultMessage());
-            if (result != null) {
+            try {
+                System.out.println(error.getMessage());
+                Operation help = createOperationByName("help");
+                System.out.println(help.execute(null).getResultMessage());
+                if (result != null) {
+                    result = new OperationResult(
+                            error.getMessage(),
+                            FAILED,
+                            operationInstance,
+                            result
+                    );
+                } else {
+                    result = new OperationResult(
+                            error.getMessage(),
+                            FAILED,
+                            operationInstance,
+                            null
+                    );
+                }
+            } catch (Exception err) {
+                //
+                // We get here if there are no available operations
+                // in system.
+                //
                 result = new OperationResult(
-                      error.getMessage(),
-                      FAILED,
-                      operationInstance,
-                      result
-                );
-            } else {
-                result = new OperationResult(
-                      error.getMessage(),
-                      FAILED,
-                      operationInstance,
-                      null
+                        err.getMessage(),
+                        FAILED,
+                        operationInstance,
+                        result
                 );
             }
         }

@@ -35,6 +35,7 @@ import static com.jaspersoft.jasperserver.jrsh.operation.result.ResultCode.SUCCE
 
 /**
  * @author Alexander Krasnyanskiy
+ * @since 2.0
  */
 @Data
 @Master(name = "help",
@@ -66,26 +67,19 @@ public class HelpOperation implements Operation {
 
             Field field;
             String description;
-            String usage;
 
             if (master != null) {
-                description = master.description();
-                usage = master.usage();
                 builder
                         .append(PREFIX)
-                        .append(description)
+                        .append(master.description())
                         .append(LF)
                         .append(PREFIX)
                         .append("usage: ")
-                        .append(usage)
+                        .append(master.usage())
                         .append(DLF);
             }
         }
 
-        return new OperationResult(
-                builder.toString(),
-                SUCCESS,
-                this,
-                null);
+        return new OperationResult(builder.toString(), SUCCESS, this, null);
     }
 }
