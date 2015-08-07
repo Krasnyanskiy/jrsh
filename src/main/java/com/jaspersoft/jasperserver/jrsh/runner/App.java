@@ -31,7 +31,7 @@ import static com.jaspersoft.jasperserver.jrsh.common.ArgumentUtil.convertToScri
 import static java.lang.System.exit;
 
 /**
- * {@link App} class used to bootstrap and launch an application.
+ * This class used to bootstrap and launch an application.
  *
  * @author Alexander Krasnyanskiy
  * @since 2.0
