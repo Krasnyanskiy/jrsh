@@ -1,5 +1,0 @@
-# Script test
-
-login superuser%superuser@http://localhost:8080/jasperserver-pro
-
-export repository /public/Samples/Reports/06g.ProfitDetailReport to /Users/akrasnyanskiy/IdeaProjects/jrsh/src/main/resources/export.zip with-user-roles with-include-monitoring-events
